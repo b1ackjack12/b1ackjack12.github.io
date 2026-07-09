@@ -25,7 +25,8 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <!-- AdSense: 승인 후 아래에 스크립트를 넣으세요 -->
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXX" crossorigin="anonymous"></script> -->
     <style>
-      :root { color-scheme: dark; --bg:#141020; --panel:rgba(255,255,255,0.05); --border:rgba(167,139,250,0.2); --text:#ece8f5; --muted:#9a90b0; --accent:#a78bfa; --heading:#ffffff; --font:system-ui, -apple-system, sans-serif; }
+      :root { color-scheme: light dark; --bg:#f9fafb; --panel:#ffffff; --border:#e5e7eb; --text:#111827; --muted:#6b7280; --accent:#2563eb; --heading:#111827; --font:'Inter', system-ui, sans-serif; }
+      @media (prefers-color-scheme: dark) { :root { --bg:#0f1115; --panel:#1f2430; --border:#374151; --text:#e5e7eb; --muted:#9ca3af; --accent:#60a5fa; --heading:#f9fafb; --font:'Inter', system-ui, sans-serif; } }
       body { margin:0; background:var(--bg); color:var(--text);
              font-family:var(--font); line-height:1.7; }
       .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px; }
@@ -39,8 +40,10 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
       .hero { width:100%; aspect-ratio:16/9; object-fit:cover; margin-bottom:22px; }
       .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; margin-top:22px; }
       .card { display:block; background:var(--panel); border:1px solid var(--border);
-              border-radius:14px; overflow:hidden; text-decoration:none; color:inherit; transition:border-color .15s; }
-      .card:hover { border-color:var(--accent); }
+              border-radius:14px; overflow:hidden; text-decoration:none; color:inherit;
+              box-shadow:0 1px 3px rgba(0,0,0,0.08); transition:transform .15s, box-shadow .15s, border-color .15s; }
+      .card:hover { border-color:var(--accent); transform:translateY(-3px);
+                    box-shadow:0 8px 24px rgba(0,0,0,0.12); }
       .card img { width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:0; display:block; }
       .card-body { padding:12px 14px; }
       .card strong { color:var(--heading); display:block; margin-bottom:4px; }
