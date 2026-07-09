@@ -1,7 +1,9 @@
 ---
-interface Props { title: string; description?: string; }
-const { title, description = '' } = Astro.props;
+interface Props { title: string; description?: string; image?: string; article?: boolean; }
+const { title, description = '', image, article = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site) : undefined;
 ---
 <!doctype html>
 <html lang="en">
@@ -9,7 +11,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <title>{title}</title>
+    <slot name="head" />
     <!-- AdSense: 승인 후 아래에 스크립트를 넣으세요 -->
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXX" crossorigin="anonymous"></script> -->
     <style>
@@ -31,7 +43,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       .card img { width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:0; display:block; }
       .card-body { padding:12px 14px; }
       .card strong { color:#fff; display:block; margin-bottom:4px; }
-      ul.plain { list-style:none; padding:0; }
+      .tags { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 0; }
+      .tag { font-size:12px; color:#8a8a99; background:rgba(255,255,255,0.05);
+             padding:2px 10px; border-radius:999px; }
+      .related { margin-top:40px; border-top:1px solid rgba(255,255,255,0.08); padding-top:20px; }
     </style>
   </head>
   <body>
