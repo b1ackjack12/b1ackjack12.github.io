@@ -25,28 +25,32 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <!-- AdSense: 승인 후 아래에 스크립트를 넣으세요 -->
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXX" crossorigin="anonymous"></script> -->
     <style>
-      :root { color-scheme: dark; }
-      body { margin:0; background:#0d0d12; color:#e8e8ed;
-             font-family: system-ui, -apple-system, sans-serif; line-height:1.7; }
+      :root { color-scheme: dark; --bg:#141020; --panel:rgba(255,255,255,0.05); --border:rgba(167,139,250,0.2); --text:#ece8f5; --muted:#9a90b0; --accent:#a78bfa; --heading:#ffffff; --font:system-ui, -apple-system, sans-serif; }
+      body { margin:0; background:var(--bg); color:var(--text);
+             font-family:var(--font); line-height:1.7; }
       .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px; }
-      a { color:#ff8a4c; }
-      h1,h2,h3 { color:#fff; line-height:1.3; }
-      header a { color:#fff; text-decoration:none; font-weight:700; font-size:20px; }
+      a { color:var(--accent); }
+      h1,h2,h3 { color:var(--heading); line-height:1.3; }
+      header a { color:var(--heading); text-decoration:none; font-weight:700; font-size:20px; }
       img { max-width:100%; border-radius:12px; }
-      .muted { color:#8a8a99; font-size:14px; }
-      article :global(pre) { background:#16161d; padding:14px; border-radius:10px; overflow:auto; }
+      .muted { color:var(--muted); font-size:14px; }
+      article :global(pre) { background:var(--panel); border:1px solid var(--border);
+             padding:14px; border-radius:10px; overflow:auto; }
       .hero { width:100%; aspect-ratio:16/9; object-fit:cover; margin-bottom:22px; }
       .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; margin-top:22px; }
-      .card { display:block; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+      .card { display:block; background:var(--panel); border:1px solid var(--border);
               border-radius:14px; overflow:hidden; text-decoration:none; color:inherit; transition:border-color .15s; }
-      .card:hover { border-color:rgba(255,138,76,0.4); }
+      .card:hover { border-color:var(--accent); }
       .card img { width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:0; display:block; }
       .card-body { padding:12px 14px; }
-      .card strong { color:#fff; display:block; margin-bottom:4px; }
+      .card strong { color:var(--heading); display:block; margin-bottom:4px; }
+      .postlist { list-style:none; padding:0; }
+      .postlist li { padding:16px 0; border-bottom:1px solid var(--border); }
+      .postlist a { font-size:18px; font-weight:600; text-decoration:none; }
       .tags { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 0; }
-      .tag { font-size:12px; color:#8a8a99; background:rgba(255,255,255,0.05);
-             padding:2px 10px; border-radius:999px; }
-      .related { margin-top:40px; border-top:1px solid rgba(255,255,255,0.08); padding-top:20px; }
+      .tag { font-size:12px; color:var(--muted); background:var(--panel);
+             border:1px solid var(--border); padding:2px 10px; border-radius:999px; }
+      .related { margin-top:40px; border-top:1px solid var(--border); padding-top:20px; }
     </style>
   </head>
   <body>
