@@ -1,24 +1,34 @@
 ---
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
-import Base from '../layouts/Base.astro';
-const posts = (await getCollection('posts')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+import Layout from '../layouts/Layout.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const posts = (await getCollection('posts')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title="AI Tech Blog">
-  <h1>Latest posts</h1>
-  {posts.length === 0 && <p class="muted">No posts yet.</p>}
-  <div class="grid">
-    {posts.map((p) => (
-      <a class="card" href={`${base}/posts/${p.data.slug ?? p.id}`}>
-        {p.data.thumbnail && <Image src={p.data.thumbnail} alt={p.data.title} />}
-        <div class="card-body">
-          <strong>{p.data.title}</strong>
-          <div class="muted">{p.data.date.toDateString()}</div>
-        </div>
-      </a>
-    ))}
+<Layout title="AI Tech Blog">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-gray-100">Latest Posts</h1>
+    {posts.length === 0 && <p class="text-center text-gray-500 dark:text-gray-400">No posts yet.</p>}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {posts.map((post) => (
+        <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+          {post.data.thumbnail && (
+            <Image src={post.data.thumbnail} alt={post.data.title} class="w-full h-48 object-cover" width={400} height={192} />
+          )}
+          <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">{post.data.title}</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 flex-grow">{post.data.description}</p>
+            <div class="mt-auto">
+              <time datetime={post.data.date.toISOString()} class="text-gray-500 dark:text-gray-400 text-sm block mb-3">
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+              <div class="text-right">
+                <a href={`${base}/posts/${post.data.slug ?? post.id}`} class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 no-underline">Read More</a>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
-</Base>
+</Layout>

@@ -1,0 +1,46 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+interface Props {
+  title: string; description?: string; image?: string;
+  article?: boolean; tags?: string[]; date?: Date; author?: string;
+}
+const { title, description = '', image, article = false, tags = [], date, author = 'Editorial' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site) : undefined;
+const jsonLd = article ? {
+  '@context': 'https://schema.org', '@type': 'Article', headline: title, description,
+  ...(date ? { datePublished: date.toISOString() } : {}),
+  author: { '@type': 'Person', name: author },
+  ...(ogImage ? { image: ogImage.toString() } : {}),
+} : null;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <script is:inline>
+      (function () {
+        const t = localStorage.getItem('theme');
+        if (t !== 'light') document.documentElement.classList.add('dark');
+      })();
+    </script>
+    <title>{title}</title>
+  </head>
+  <body class="flex flex-col min-h-screen font-sans bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+    <Header />
+    <main class="flex-grow w-full" id="main-content"><slot /></main>
+    <Footer />
+  </body>
+</html>

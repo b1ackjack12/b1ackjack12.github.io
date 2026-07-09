@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* class 기반 다크모드 (html.dark) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 본문(마크다운) prose 스타일 — Tailwind preflight 리셋 보완 */
+.prose { line-height: 1.8; }
+.prose h2 { font-size: 1.6rem; font-weight: 700; margin: 1.7em 0 .6em; }
+.prose h3 { font-size: 1.3rem; font-weight: 600; margin: 1.4em 0 .5em; }
+.prose p { margin: 1.1em 0; }
+.prose ul, .prose ol { margin: 1.1em 0; padding-left: 1.5em; }
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li { margin: .35em 0; }
+.prose a { color: #2563eb; text-decoration: underline; }
+:where(.dark) .prose a { color: #60a5fa; }
+.prose img { border-radius: .6rem; margin: 1.6em 0; }
+.prose blockquote { border-left: 3px solid #cbd5e1; padding-left: 1em; color: #64748b; margin: 1.2em 0; }
+.prose pre { background: #f6f8fa; padding: 1rem; border-radius: .6rem; overflow: auto; margin: 1.2em 0; }
+:where(.dark) .prose pre { background: #1f2937; }
+.prose code { font-family: ui-monospace, monospace; font-size: .92em; }

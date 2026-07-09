@@ -1,0 +1,12 @@
+---
+import DarkModeToggle from './DarkModeToggle.astro';
+const base = import.meta.env.BASE_URL;
+---
+<header class="bg-white dark:bg-gray-900 w-full py-3 border-b border-gray-100 dark:border-gray-800 transition-colors duration-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="flex items-center justify-between" aria-label="Main navigation">
+      <a href={base} class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100 no-underline">AI Tech Blog</a>
+      <DarkModeToggle />
+    </nav>
+  </div>
+</header>
