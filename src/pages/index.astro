@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 const posts = (await getCollection('posts')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -9,12 +10,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <Base title="AI Tech Blog">
   <h1>Latest posts</h1>
   {posts.length === 0 && <p class="muted">No posts yet.</p>}
-  <ul>
+  <div class="grid">
     {posts.map((p) => (
-      <li>
-        <a href={`${base}/posts/${p.data.slug ?? p.id}`}>{p.data.title}</a>
-        <div class="muted">{p.data.date.toDateString()}</div>
-      </li>
+      <a class="card" href={`${base}/posts/${p.data.slug ?? p.id}`}>
+        {p.data.thumbnail && <Image src={p.data.thumbnail} alt={p.data.title} />}
+        <div class="card-body">
+          <strong>{p.data.title}</strong>
+          <div class="muted">{p.data.date.toDateString()}</div>
+        </div>
+      </a>
     ))}
-  </ul>
+  </div>
 </Base>

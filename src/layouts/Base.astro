@@ -23,6 +23,15 @@ const base = '/little-developer';
       img { max-width:100%; border-radius:12px; }
       .muted { color:#8a8a99; font-size:14px; }
       article :global(pre) { background:#16161d; padding:14px; border-radius:10px; overflow:auto; }
+      .hero { width:100%; aspect-ratio:16/9; object-fit:cover; margin-bottom:22px; }
+      .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; margin-top:22px; }
+      .card { display:block; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+              border-radius:14px; overflow:hidden; text-decoration:none; color:inherit; transition:border-color .15s; }
+      .card:hover { border-color:rgba(255,138,76,0.4); }
+      .card img { width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:0; display:block; }
+      .card-body { padding:12px 14px; }
+      .card strong { color:#fff; display:block; margin-bottom:4px; }
+      ul.plain { list-style:none; padding:0; }
     </style>
   </head>
   <body>
