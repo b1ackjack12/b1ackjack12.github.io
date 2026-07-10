@@ -19,3 +19,16 @@
 .prose pre { background: #f6f8fa; padding: 1rem; border-radius: .6rem; overflow: auto; margin: 1.2em 0; }
 :where(.dark) .prose pre { background: #1f2937; }
 .prose code { font-family: ui-monospace, monospace; font-size: .92em; }
+.prose :not(pre) > code { background: rgba(175,184,193,.2); padding: .15em .4em; border-radius: .35em; }
+:where(.dark) .prose :not(pre) > code { background: rgba(110,118,129,.4); }
+.prose hr { border: 0; border-top: 1px solid #d0d7de; margin: 2em 0; }
+:where(.dark) .prose hr { border-top-color: #30363d; }
+/* 표: GitHub 스타일 — 테두리·패딩·헤더 음영·줄무늬 + 넘칠 때 가로 스크롤 */
+.prose table { display: block; width: max-content; max-width: 100%; overflow-x: auto;
+  border-collapse: collapse; margin: 1.6em 0; font-size: .95em; line-height: 1.55; }
+.prose th, .prose td { border: 1px solid #d0d7de; padding: .5em .9em; text-align: left; vertical-align: top; }
+.prose thead th { background: #f6f8fa; font-weight: 700; }
+.prose tbody tr:nth-child(2n) { background: #f6f8fa; }
+:where(.dark) .prose th, :where(.dark) .prose td { border-color: #30363d; }
+:where(.dark) .prose thead th { background: #161b22; }
+:where(.dark) .prose tbody tr:nth-child(2n) { background: #161b22; }
