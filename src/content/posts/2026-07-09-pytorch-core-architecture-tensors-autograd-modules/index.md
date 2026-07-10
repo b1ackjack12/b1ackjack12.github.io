@@ -12,11 +12,7 @@ tags: ["pytorch", "autograd", "tensors", "nn", "machine-learning"]
 
 PyTorch has become the go‑to tensor library for researchers and engineers looking to prototype quickly and then ship production models. Unlike its older colleague TensorFlow, which once favored static graphs, PyTorch embraces dynamic computation through eager execution and a Python‑centric design. This means you can write code that feels like ordinary Python, debug it with standard tools, and still leverage GPU acceleration and distributed training. In this post, we’ll dig into the core of PyTorch, highlight the parts that matter most when you’re working across languages, and give you a clear map of how to move from a notebook experiment to a scalable service.
 
-
-
 ![A vibrant diagram showing a Python script feeding data into a PyTorch model, the](./figure-1.jpg)
-
-  
 
 ## Core Concepts and API
 
@@ -41,54 +37,71 @@ class Net(nn.Module):
         x = F.relu(self.fc1(x))
         return F.log_softmax(self.fc2(x), dim=1)
 
-model = Net().to('cuda')          # Move to GPU
+model = Net().to('cuda')
 criterion = nn.NLLLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 ```
 
 Key take‑aways:
-
 - **Tensor operations are lazy‑but‑ready**: when you call `x * y`, both tensors must reside on the same device.  
 - **Gradients are optional**: set `requires_grad=True` only when a tensor will be updated.  
 - **Modules group parameters**: `model.parameters()` returns an iterator that can be passed directly to optimizers.
 
 ### Best Practices Checklist
 
-- **Pin GPU memory** when loading large batches to avoid fragmentation.  
-- **Use `torch.no_grad()`** during inference to free memory and speed up forward passes.  
-- **Keep model state in `state_dict`** rather than full objects for serialization robustness.  
-- **Profile with `torch.autograd.profiler`** to spot bottlenecks in complex graphs.
+- **Pin GPU memory**: Use `pin_memory=True` in your `DataLoader` to speed up host-to-device transfers.
+- **Use `torch.no_grad()`**: Crucial during inference to prevent autograd from building a graph, which saves significant memory.
+- **Serialization**: Always save `model.state_dict()` rather than the whole model object to avoid versioning issues.
+- **Profile early**: Use `torch.profiler` to identify bottlenecks before they become production outages.
 
-## GPU and Performance
+## Optimizing Training with Mixed Precision
 
-PyTorch’s back‑end is built on CUDA (with optional ROCm or Metal support), and most computation is offloaded to the GPU by just moving tensors: `tensor.to('cuda')`. However, raw speed comes from:
+In modern deep learning, the standard `float32` (FP32) precision often leads to unnecessary memory overhead. Mixed Precision Training allows us to use `float16` (FP16) for sensitive operations while maintaining `float32` for stable updates. This effectively doubles your batch size and speeds up training on NVIDIA Tensor Cores.
 
-- **Mixed‑precision training** (`torch.cuda.amp`).  
-- **TensorRT integration** for inference.  
-- **Custom kernels** via `torch._dynamo` or `torch.compile`.
+Here is the production-ready implementation using `torch.amp`:
 
-Mixed‑precision training, for example, keeps weights in 32‑bit while activations use 16‑bit, which reduces memory usage by ~50% and can increase throughput by 2–4×, depending on the workload.
+```python
+from torch.cuda.amp import autocast, GradScaler
 
+# Initialize the scaler
+scaler = GradScaler()
 
+for data, target in loader:
+    optimizer.zero_grad()
+
+    # Enable Mixed Precision
+    with autocast():
+        output = model(data)
+        loss = criterion(output, target)
+
+    # Scale the loss to prevent underflow of small gradients
+    scaler.scale(loss).backward()
+    
+    # Step the optimizer
+    scaler.step(optimizer)
+    scaler.update()
+```
+
+By wrapping the forward pass in `autocast` and using the `GradScaler`, you ensure that the gradients don't "vanish" (become zero) due to the limited range of FP16, while enjoying a massive boost in training throughput.
 
 ![A side‑by‑side illustration comparing memory usage and time per epoch for a ResN](./figure-2.jpg)
 
-  
+## Performance Profiling
 
-To profile, simply wrap the training loop:
+When scaling your training pipelines, intuition often fails. You must rely on the `torch.profiler` to see exactly what is happening under the hood.
 
 ```python
-with torch.autograd.profiler.profile() as prof:
-    for data, target in loader:
-        optimizer.zero_grad()
-        output = model(data)
-        loss = criterion(output, target)
-        loss.backward()
-        optimizer.step()
-print(prof.key_averages().table(sort_by="self_cpu_time_total"))
+with torch.profiler.profile(
+    activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
+    record_shapes=True
+) as prof:
+    # Run a few training steps
+    train_step(model, data)
+
+print(prof.key_averages().table(sort_by="cuda_time_total", row_limit=10))
 ```
 
-The output will highlight hot spots, such as `cudaMemcpy` or specific layers, letting you fine‑tune batch sizes or kernel batch operations.
+This output will highlight hot spots, such as `cudaMemcpy` or specific layers, allowing you to optimize data loading or adjust kernel batch operations to maximize GPU utilization.
 
 ## Deployment Strategies
 
@@ -96,7 +109,7 @@ Bringing a PyTorch model from a Jupyter notebook to a production environment inv
 
 | Target | Tool | Usage |
 |--------|------|-------|
-| **CPU inference on a server** | TorchScript (`torch.jit.trace` or `torch.jit.script`) | Convert the model to a serializable graph that runs independently of Python. |
+| **CPU inference on a server** | TorchScript | Convert the model to a serializable graph that runs independently of Python. |
 | **GPU inference in the cloud** | TorchServe | Deploy microservices with autoscaling and multi‑model support. |
-| **Edge devices (NVIDIA Jetson, Google Coral)** | TensorRT + ONNX | Convert PyTorch => ONNX => TensorRT for maximum throughput and low latency. |
-| **Full stack (backend + mobile)** | TorchServe + PyTorch Mobile |
+| **Edge devices** | TensorRT | Convert PyTorch to ONNX, then to TensorRT for maximum throughput and low latency. |
+| **Dynamic Graph Compilation** | `torch.compile` | Use Python 3.10+ and `torch.compile(model)` for JIT compilation that rivals custom C++ implementations. |
