@@ -3,7 +3,7 @@ title: "PyTorch vs. JAX: Choosing Your 2026 Deep Learning Framework"
 description: "Navigate the 2026 AI ecosystem by understanding when to leverage PyTorch's production maturity versus JAX's specialized high-performance research capabilities."
 slug: "pytorch-vs-jax-2026-framework-guide"
 date: 2026-07-10
-author: "Editorial"
+author: "B1ack"
 draft: false
 thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "jax", "deep learning", "ai infrastructure"]

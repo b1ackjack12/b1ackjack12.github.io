@@ -3,7 +3,7 @@ title: "Mastering PyTorch’s Core – Tensors, Autograd, and Modules"
 description: "Learn how PyTorch’s tensors, autograd, and nn.Modules interconnect to create trainable models and deploy production services."
 slug: "pytorch-core-architecture-tensors-autograd-modules"
 date: 2026-07-09
-author: "Editorial"
+author: "B1ack"
 thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "autograd", "tensors", "nn", "machine-learning"]
 ---

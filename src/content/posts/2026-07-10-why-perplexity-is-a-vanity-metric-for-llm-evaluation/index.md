@@ -3,7 +3,7 @@ title: "Why Perplexity is a Vanity Metric for Modern LLM Evaluation"
 description: "Stop relying on perplexity scores. Learn why production-grade AI requires semantic similarity metrics like BERTScore to measure actual performance."
 slug: "why-perplexity-is-a-vanity-metric-for-llm-evaluation"
 date: 2026-07-10
-author: "Editorial"
+author: "B1ack"
 draft: false
 keyword: "AI Engineering"
 thumbnail: "./thumbnail.jpg"
