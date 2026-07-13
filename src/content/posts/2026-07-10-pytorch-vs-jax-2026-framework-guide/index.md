@@ -53,7 +53,7 @@ For many production workloads, the slight execution overhead of eager PyTorch is
 
 | Scenario | Recommended Framework | Why |
 |----------|-----------------------|-----|
-| Training a 800 bn‑parameter GPT on a TPU v4 cluster | **JAX** | `pjit` + `sharding` automatically slices the model across thousands of TPUs; PyTorch would require custom sharding logic. |
+| Training a several‑hundred‑billion‑parameter model on a TPU v4 cluster | **JAX** | `pjit` + `sharding` express model/data parallelism across thousands of TPUs concisely; PyTorch offers similar scaling through FSDP and tensor/DTensor parallelism, though often with more explicit configuration. |
 | Building a fluid‑dynamic PINN where gradients must be computed across multi‑scope loops | **JAX** | `grad` and `vmap` provide easy, composable automatic differentiation over vectorised inputs, reducing boilerplate. |
 | Rapid prototyping of a new mathematical operator (e.g., a novel attention mechanism) | **JAX** | The functional API forces you to separate parameter storage and computation, leading to cleaner, more reproducible experiments. |
 

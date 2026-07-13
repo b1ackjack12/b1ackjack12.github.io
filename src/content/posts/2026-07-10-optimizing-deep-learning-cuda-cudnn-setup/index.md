@@ -18,7 +18,7 @@ Deep learning frameworks rely heavily on GPU acceleration to stay competitive, a
 What cuDNN Adds
 ---------------
 
-cuDNN exposes highly optimised kernels for convolutional layers, fully connected layers, recurrent networks, and more. The library is written in a thin, device‑agnostic wrapper that calls into the CUDA driver and GPU runtime; the majority of the scientific computing remains in the hands of the deep‑learning framework. Nevertheless, the library must be present where the compiler can find headers and where the link directory is discoverable. The official cuDNN developer guide outlines these requirements precisely and emphasizes that the library’s performance scales with the matched CUDA version and GPU architecture.
+cuDNN exposes highly optimised kernels for convolutional layers, fully connected layers, recurrent networks, and more. The library provides a thin, uniform API over highly tuned GPU kernels, calling into the CUDA driver and GPU runtime (cuDNN targets NVIDIA GPUs specifically); the majority of the scientific computing remains in the hands of the deep‑learning framework. Nevertheless, the library must be present where the compiler can find headers and where the link directory is discoverable. The official cuDNN developer guide outlines these requirements precisely and emphasizes that the library’s performance scales with the matched CUDA version and GPU architecture.
 
 Installing the CUDA Toolkit
 ===========================
