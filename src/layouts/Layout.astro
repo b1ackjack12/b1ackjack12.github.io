@@ -9,6 +9,7 @@ interface Props {
 const { title, description = '', image, article = false, tags = [], date, author = 'Editorial' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image ? new URL(image, Astro.site) : undefined;
+const favBase = import.meta.env.BASE_URL.replace(/\/$/, '');
 const jsonLd = article ? {
   '@context': 'https://schema.org', '@type': 'Article', headline: title, description,
   ...(date ? { datePublished: date.toISOString() } : {}),
@@ -38,6 +39,10 @@ const jsonLd = article ? {
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KD8V2LC7T4"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-KD8V2LC7T4');</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7714598970960103" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href={`${favBase}/favicon-32x32.png`} />
+    <link rel="icon" type="image/png" href={`${favBase}/favicon.png`} />
+    <link rel="apple-touch-icon" href={`${favBase}/apple-touch-icon.png`} />
     <title>{title}</title>
   </head>
   <body class="flex flex-col min-h-screen font-sans bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
