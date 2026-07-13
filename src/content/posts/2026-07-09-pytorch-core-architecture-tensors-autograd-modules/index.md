@@ -12,7 +12,7 @@ tags: ["pytorch", "autograd", "tensors", "nn", "machine-learning"]
 
 PyTorch has become the go‑to tensor library for researchers and engineers looking to prototype quickly and then ship production models. Unlike its older colleague TensorFlow, which once favored static graphs, PyTorch embraces dynamic computation through eager execution and a Python‑centric design. This means you can write code that feels like ordinary Python, debug it with standard tools, and still leverage GPU acceleration and distributed training. In this post, we’ll dig into the core of PyTorch, highlight the parts that matter most when you’re working across languages, and give you a clear map of how to move from a notebook experiment to a scalable service.
 
-![A vibrant diagram showing a Python script feeding data into a PyTorch model, the](./figure-1.jpg)
+![Diagram of a Python script feeding data into a PyTorch model and training loop](./figure-1.jpg)
 
 ## Core Concepts and API
 
@@ -61,16 +61,17 @@ In modern deep learning, the standard `float32` (FP32) precision often leads to 
 Here is the production-ready implementation using `torch.amp`:
 
 ```python
-from torch.cuda.amp import autocast, GradScaler
+import torch
+from torch.amp import autocast, GradScaler
 
-# Initialize the scaler
-scaler = GradScaler()
+# Initialize the scaler (modern torch.amp API)
+scaler = GradScaler("cuda")
 
 for data, target in loader:
     optimizer.zero_grad()
 
     # Enable Mixed Precision
-    with autocast():
+    with autocast("cuda"):
         output = model(data)
         loss = criterion(output, target)
 
@@ -84,7 +85,7 @@ for data, target in loader:
 
 By wrapping the forward pass in `autocast` and using the `GradScaler`, you ensure that the gradients don't "vanish" (become zero) due to the limited range of FP16, while enjoying a massive boost in training throughput.
 
-![A side‑by‑side illustration comparing memory usage and time per epoch for a ResN](./figure-2.jpg)
+![Side-by-side comparison of memory usage and time per epoch with mixed precision](./figure-2.jpg)
 
 ## Performance Profiling
 

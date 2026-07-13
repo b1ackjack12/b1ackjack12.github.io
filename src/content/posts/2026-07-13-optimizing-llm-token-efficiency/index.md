@@ -19,7 +19,7 @@ To optimize, treat your system prompt like a function definition in code. Use im
 
 
 
-![A diagram showing a tall, cluttered paragraph of natural language instruction on](./figure-1.jpg)
+![A verbose natural-language prompt beside a concise, structured prompt](./figure-1.jpg)
 
 
 
@@ -35,7 +35,7 @@ By offloading your long-term storage to a database and only calling upon it when
 
 
 
-![A flowchart illustrating a vector database returning only two high-relevance dat](./figure-2.jpg)
+![A vector database returning only the most relevant snippets into the prompt context](./figure-2.jpg)
 
 
 
@@ -47,7 +47,7 @@ Using structured output formats—such as JSON or specific schema definitions—
 
 
 
-![A comparison diagram showing a raw text blob response containing 500 tokens vers](./figure-3.jpg)
+![A verbose free-text response compared with a compact structured JSON output](./figure-3.jpg)
 
 
 

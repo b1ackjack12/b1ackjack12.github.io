@@ -31,11 +31,11 @@ Because both frameworks target XLA, the actual performance ceiling is governed b
 | Feature | PyTorch (Dynamic) | PyTorch + `torch.compile` (Static) | JAX (Static) |
 |---------|-------------------|----------------------------------|--------------|
 | **Ease of Debugging** | Classic Python debugging (print, pdb) works directly on the graph. | Debugging can be done pre‑compile, but once compiled, only XLA diagnostics are available. | Debugging occurs before `jit`; after compilation you only see XLA traces. |
-| **Execution Overhead** | Contains Python‑level dispatch and context‑switching, leading to > 5–10 % runtime cost on a trained model. | Eliminates dispatch by compiling the entire call‑graph once. | Same static graph elimination; no dynamic dispatch overhead. |
+| **Execution Overhead** | Contains Python‑level dispatch and context‑switching, leading to noticeable per-op overhead for small, kernel-bound models. | Eliminates dispatch by compiling the entire call‑graph once. | Same static graph elimination; no dynamic dispatch overhead. |
 | **Hardware Flexibility** | Works on CPU, GPU, and CUDA; XLA fallback only on supported devices. | Triggers XLA when available; otherwise falls back to the eager runtime. | Mandatory XLA; requires a TPU or GPU that supports it (e.g., A100, v4 TPU). |
 | **Memory Consumption** | Handles fine‑grained tensor lifetimes; may consume less memory for small models. | In-JIT a static shape is required; resizing may trigger re‑allocation. | Requires static shape awareness; large index‑based tensors must be pre‑allocated. |
 
-For many production workloads, the slight execution overhead of eager PyTorch is acceptable, especially when combined with the *TorchScript* `export` pipeline that allows converting models to protobuf for C++ deployment. When you need to optimize for low-latency inference on high-throughput GPUs, `torch.compile` with XLA is the recommended path.
+For many production workloads, the slight execution overhead of eager PyTorch is acceptable, especially when combined with TorchScript and `torch.export`, which compile a model into a standalone artifact for C++ (LibTorch) deployment—or ONNX export when you need a portable, protobuf-based interchange format. When you need to optimize for low-latency inference on high-throughput GPUs, `torch.compile` with XLA is the recommended path.
 
 ---
 
@@ -55,4 +55,12 @@ For many production workloads, the slight execution overhead of eager PyTorch is
 |----------|-----------------------|-----|
 | Training a 800 bn‑parameter GPT on a TPU v4 cluster | **JAX** | `pjit` + `sharding` automatically slices the model across thousands of TPUs; PyTorch would require custom sharding logic. |
 | Building a fluid‑dynamic PINN where gradients must be computed across multi‑scope loops | **JAX** | `grad` and `vmap` provide easy, composable automatic differentiation over vectorised inputs, reducing boilerplate. |
-| Rapid prototyping of a new mathematical operator (e.g., a novel attention mechanism) | **JAX** | The functional API forces you to separate parameter storage and computation, leading to
+| Rapid prototyping of a new mathematical operator (e.g., a novel attention mechanism) | **JAX** | The functional API forces you to separate parameter storage and computation, leading to cleaner, more reproducible experiments. |
+
+---
+
+## Conclusion
+
+There is no single “winner.” **PyTorch** is the pragmatic default: the richest ecosystem, the smoothest path from notebook to production, and broad hardware and deployment support. **JAX** rewards teams that need composable function transforms (`grad`, `vmap`, `pmap`), first-class TPU sharding, and tight control over what XLA compiles.
+
+A useful rule of thumb: pick **PyTorch** when your priority is shipping and integrating with existing tooling, and **JAX** when your priority is research velocity on large-scale or mathematically intensive workloads. Because both ultimately compile to XLA, the gap in raw performance is often smaller than the gap in developer experience—so let your team’s workflow, not benchmarks alone, drive the decision.

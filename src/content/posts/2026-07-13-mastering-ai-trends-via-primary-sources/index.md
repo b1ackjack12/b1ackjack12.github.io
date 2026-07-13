@@ -17,7 +17,7 @@ The most reliable way to understand where AI is heading is to monitor the techni
 
 Official documentation is where you find the authoritative information about a model's capabilities and its limitations. When a research lab releases a new architecture, they typically accompany it with a technical report detailing the training data composition, the model’s evaluation methodology, and the specific benchmarks used to validate its performance. By reading these papers, you bypass the inaccuracies that often creep into third-party reporting. If you want to know if a model supports function calling, context window extensions, or specific multimodal inputs, the API documentation is the only source that matters.
 
-![A flowchart showing a pipeline starting from an 'arXiv preprint' input, leading ](./figure-1.jpg)
+![A pipeline from an arXiv preprint and official docs to a developer's evaluation](./figure-1.jpg)
 
 ## Prioritize Architectural Patterns over Hype
 
@@ -25,7 +25,7 @@ The industry is moving beyond the simple "chat interface" paradigm. To stay ahea
 
 When evaluating a new development tool or framework, look for its structural impact on your stack. Is it introducing a new abstraction for Retrieval-Augmented Generation (RAG)? Does it change how latency is handled in long-context sequences? By focusing on the *mechanics* of the software—how it manages state, handles memory, and interfaces with external databases—you can predict whether a new trend will provide lasting value to your infrastructure or if it is a temporary novelty. 
 
-![A diagram showing a RAG architecture: a user query flowing into a vector databas](./figure-2.jpg)
+![A RAG architecture: a user query retrieving from a vector database into the model](./figure-2.jpg)
 
 ## Curate Your Information Diet
 
