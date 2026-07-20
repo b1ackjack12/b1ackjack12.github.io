@@ -1,6 +1,6 @@
 ---
-title: "Mastering PyTorch’s Core – Tensors, Autograd, and Modules"
-description: "Learn how PyTorch’s tensors, autograd, and nn.Modules interconnect to create trainable models and deploy production services."
+title: "PyTorch from the Ground Up: Tensors, Autograd, and Modules"
+description: "How PyTorch’s three core layers — tensors, autograd, and nn.Module — fit together, plus the habits that have saved me the most debugging time."
 slug: "pytorch-core-architecture-tensors-autograd-modules"
 date: 2026-07-09
 author: "B1ack"
@@ -10,7 +10,9 @@ tags: ["pytorch", "autograd", "tensors", "nn", "machine-learning"]
 
 ## Introduction
 
-PyTorch has become the go‑to tensor library for researchers and engineers looking to prototype quickly and then ship production models. Unlike its older colleague TensorFlow, which once favored static graphs, PyTorch embraces dynamic computation through eager execution and a Python‑centric design. This means you can write code that feels like ordinary Python, debug it with standard tools, and still leverage GPU acceleration and distributed training. In this post, we’ll dig into the core of PyTorch, highlight the parts that matter most when you’re working across languages, and give you a clear map of how to move from a notebook experiment to a scalable service.
+I work on image processing and sensor algorithms, and PyTorch is the tool I reach for whenever a classical pipeline stops being enough and a learned model needs to take over. What kept tripping me up early on was not the math — it was not understanding how PyTorch's pieces fit together: why a tensor suddenly complains about being on the wrong device, why memory usage doubles during inference, why loading a saved model breaks after a refactor.
+
+PyTorch has become the go‑to tensor library for researchers and engineers looking to prototype quickly and then ship production models. Unlike its older colleague TensorFlow, which once favored static graphs, PyTorch embraces dynamic computation through eager execution and a Python‑centric design. This means you can write code that feels like ordinary Python, debug it with standard tools, and still leverage GPU acceleration and distributed training. In this post, I'll walk through the three core layers of PyTorch the way I wish someone had laid them out for me, along with the specific habits that have saved me the most debugging time.
 
 ![Diagram of a Python script feeding data into a PyTorch model and training loop](./figure-1.jpg)
 
@@ -49,10 +51,12 @@ Key take‑aways:
 
 ### Best Practices Checklist
 
+These are the four habits I now apply to every project, each learned the hard way:
+
 - **Pin GPU memory**: Use `pin_memory=True` in your `DataLoader` to speed up host-to-device transfers.
-- **Use `torch.no_grad()`**: Crucial during inference to prevent autograd from building a graph, which saves significant memory.
-- **Serialization**: Always save `model.state_dict()` rather than the whole model object to avoid versioning issues.
-- **Profile early**: Use `torch.profiler` to identify bottlenecks before they become production outages.
+- **Use `torch.no_grad()`**: Crucial during inference to prevent autograd from building a graph, which saves significant memory. Forgetting this is the classic cause of "why does my evaluation loop run out of memory when training was fine?"
+- **Serialization**: Always save `model.state_dict()` rather than the whole model object. Pickling the full object embeds your module's import path, so a simple file rename or refactor later makes old checkpoints unloadable — `state_dict` survives refactors.
+- **Profile early**: Use `torch.profiler` to identify bottlenecks before they become production outages. Intuition about what is slow is wrong more often than it is right.
 
 ## Optimizing Training with Mixed Precision
 
@@ -114,3 +118,9 @@ Bringing a PyTorch model from a Jupyter notebook to a production environment inv
 | **GPU inference in the cloud** | TorchServe | Deploy microservices with autoscaling and multi‑model support. |
 | **Edge devices** | TensorRT | Convert PyTorch to ONNX, then to TensorRT for maximum throughput and low latency. |
 | **Dynamic Graph Compilation** | `torch.compile` | Use Python 3.10+ and `torch.compile(model)` for JIT compilation that rivals custom C++ implementations. |
+
+For the embedded vision work I do, the ONNX → TensorRT route has been the most reliable path, but it forces you to keep your model's operations within the ONNX-exportable subset — worth checking *before* you build an architecture around an exotic custom op.
+
+## Conclusion
+
+Tensors carry the data and device placement, autograd records what you did to them, and `nn.Module` packages parameters so optimizers and serialization can find them. Once that mental model clicks, most day-to-day PyTorch errors — device mismatches, memory blow-ups, unloadable checkpoints — stop being mysterious and start being mechanical. Get the fundamentals right in the notebook, profile before you optimize, and the path to a deployed model is far shorter than it looks.

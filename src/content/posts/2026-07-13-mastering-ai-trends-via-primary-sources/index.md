@@ -1,6 +1,6 @@
 ---
-title: "Mastering AI Trends: Why Primary Sources Matter for Developers"
-description: "Cut through the marketing hype in AI by prioritizing official documentation, technical reports, and research papers over secondary commentary."
+title: "How I Follow AI Without Drowning: A Primary-Source Reading Habit"
+description: "The reading workflow I use to keep up with AI as a working engineer — official docs, technical reports, and changelogs instead of secondhand commentary."
 slug: "mastering-ai-trends-via-primary-sources"
 date: 2026-07-13
 author: "B1ack"
@@ -8,6 +8,8 @@ draft: false
 thumbnail: "./thumbnail.jpg"
 tags: ["artificial intelligence", "software development", "technical documentation", "research"]
 ---
+
+I do not work at an AI lab. I am an algorithm developer who uses machine learning as a tool, which means I cannot afford to spend hours a day following the field — but I also cannot afford to miss a change that breaks my pipeline or an optimization that would halve my inference time. What follows is the reading habit I converged on after realizing that most of my "AI news" time was being wasted on secondhand summaries of things I could have read directly.
 
 The pace of development in artificial intelligence often feels like trying to drink from a firehose. For developers, researchers, and tech enthusiasts, the challenge isn’t just finding information—it’s filtering through the noise to distinguish between meaningful architectural shifts and marketing hype. Staying informed requires a disciplined approach to consuming primary sources rather than relying on secondary commentary.
 
@@ -35,7 +37,7 @@ To avoid being overwhelmed, you must be selective about where you allocate your 
 *   **Monitor Standards Bodies and Consortia:** Organizations like the Partnership on AI or academic workshops at conferences like NeurIPS and ICML provide a long-term view of where the field is heading regarding safety, policy, and infrastructure standards.
 *   **Utilize Official Change Logs:** Make it a habit to check the "What's New" or "Changelog" pages of your primary AI tool providers once a week. These pages are concise, factual, and strictly focused on what has been deployed to production.
 
-![A calendar view showing three distinct icons: a 'repository tag' for checking pr](./figure-3.jpg)
+![A weekly calendar with icons for checking repositories, conference workshops, and provider changelogs](./figure-3.jpg)
 
 ## Recognizing the Limits of Current Trends
 

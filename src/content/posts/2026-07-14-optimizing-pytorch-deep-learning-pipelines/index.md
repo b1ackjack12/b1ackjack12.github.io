@@ -1,6 +1,6 @@
 ---
-title: "Optimizing Deep Learning Pipelines: Solving CPU-GPU Bottlenecks"
-description: "Learn to identify data-starvation in PyTorch pipelines by profiling the interplay between CPU preprocessing and asynchronous GPU execution."
+title: "Is Your GPU Actually Busy? Diagnosing CPU-GPU Bottlenecks in PyTorch"
+description: "Why training pipelines stall on data loading more often than on compute, and how to prove it with the PyTorch profiler instead of guessing."
 slug: "optimizing-pytorch-deep-learning-pipelines"
 date: 2026-07-14
 author: "B1ack"
@@ -8,6 +8,8 @@ draft: false
 thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "deep-learning", "performance", "optimization"]
 ---
+
+In image processing work, the preprocessing step is rarely trivial — decoding, resizing, normalization, and augmentation can easily cost more CPU time than the model costs GPU time. The first time I profiled one of my own training runs, the uncomfortable discovery was that the GPU I was worried about "not being fast enough" was spending a large share of each epoch simply waiting for the CPU to hand it the next batch.
 
 Optimizing deep learning pipelines is often less about tweaking model architecture and more about understanding the silent friction between your code and the underlying hardware. When training or inference slows down, the culprit is usually hidden in the interplay between CPU-bound data preprocessing and the GPU’s asynchronous execution. Before you start refactoring your model layers, you need to profile to see where your pipeline is actually stalling.
 
@@ -25,6 +27,27 @@ When setting up your profiler, you should:
 * **Enable Record Shapes:** This allows you to see the memory footprint of individual operations.
 * **Enable GPU Profiling:** If you are running on CUDA, ensure the profiler is capturing kernel execution times to differentiate between CPU-side overhead and actual GPU kernel duration.
 * **Trace Export:** Export the profile as a Chrome Trace format file. This allows you to open the results in `chrome://tracing` or the Perfetto UI, where you can zoom into individual iterations to see if Autograd tasks (like `backward`) are consuming excessive CPU cycles.
+
+A minimal setup that covers all three points:
+
+```python
+import torch
+from torch.profiler import profile, schedule, ProfilerActivity
+
+with profile(
+    activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
+    schedule=schedule(wait=1, warmup=1, active=3),
+    record_shapes=True,
+    on_trace_ready=torch.profiler.tensorboard_trace_handler("./log"),
+) as prof:
+    for step, (data, target) in enumerate(loader):
+        train_step(model, data, target)
+        prof.step()
+        if step >= 5:
+            break
+```
+
+The `schedule` matters more than it looks: profiling every step distorts the timings you are trying to measure, so skipping the first iterations (which include CUDA context setup and worker spin-up) and sampling a few steady-state steps gives a far more honest picture. The telltale signature of data starvation in the resulting trace is a repeating pattern of GPU idle gaps at the start of every iteration, right before the forward pass kernels launch.
 
 ## Addressing Data Loading Bottlenecks
 If your profile indicates that the `DataLoader` is the primary source of delay, the solution is usually found in the `num_workers` and `pin_memory` configurations. 

@@ -1,6 +1,6 @@
 ---
 title: "Why Perplexity is a Vanity Metric for Modern LLM Evaluation"
-description: "Stop relying on perplexity scores. Learn why production-grade AI requires semantic similarity metrics like BERTScore to measure actual performance."
+description: "Perplexity tells you how well a model predicts tokens, not whether it does the job. A layered evaluation approach that actually catches failures."
 slug: "why-perplexity-is-a-vanity-metric-for-llm-evaluation"
 date: 2026-07-10
 author: "B1ack"
@@ -9,6 +9,8 @@ keyword: "AI Engineering"
 thumbnail: "./thumbnail.jpg"
 tags: ["llm", "ai-engineering", "rag", "evaluation", "machine-learning"]
 ---
+
+My background is in signal processing, where we would never ship an algorithm based on a single aggregate statistic — you look at error distributions, edge cases, and failure modes on real data. So when I started integrating LLMs into my own tooling and saw model comparisons based almost entirely on perplexity, it struck me as judging a camera by its megapixel count: correlated with quality, but nowhere near sufficient.
 
 For years, perplexity has been the default "gold standard" when we talk about measuring a Large Language Model’s (LLM) quality. A lower perplexity implies that a model is better at guessing the next token. In practice, it translates to how well a model predicts text in a vacuum, but it tells little about real‑world task performance—think code generation, legal‑text summarization, or conversational agents that need to meet business rules.
 

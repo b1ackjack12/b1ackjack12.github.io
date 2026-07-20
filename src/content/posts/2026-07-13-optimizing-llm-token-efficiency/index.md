@@ -1,6 +1,6 @@
 ---
-title: "Optimizing LLM Token Efficiency for Scalable Applications"
-description: "Learn how to reduce LLM costs and latency by refining system prompts and utilizing efficient architectural patterns like few-shot prompting and RAG."
+title: "Token Efficiency in Practice: Getting More from Every LLM Call"
+description: "What building against strict API quotas taught me about prompt design, RAG context control, and structured outputs — patterns that cut both cost and latency."
 slug: "optimizing-llm-token-efficiency"
 date: 2026-07-13
 author: "B1ack"
@@ -8,6 +8,8 @@ draft: false
 thumbnail: "./thumbnail.jpg"
 tags: ["llm", "ai-engineering", "prompt-engineering", "cost-optimization"]
 ---
+
+I learned token efficiency the involuntary way: by building side-project tooling against free-tier API quotas, where a wasteful prompt does not just cost money — it locks you out for the rest of the day. That constraint turned out to be a great teacher. Every pattern below came from having to make a fixed daily budget of tokens do real work, and all of them transfer directly to paid tiers, where the same discipline shows up as a smaller invoice and lower latency.
 
 In the current landscape of Large Language Models (LLMs), the cost and latency associated with token consumption are the primary bottlenecks for developers. Whether you are building an internal tool or a customer-facing application, the way you structure your interactions with these models dictates both your monthly expenditure and the quality of the user experience. Optimizing for token efficiency is not just about saving money; it is about architectural hygiene.
 
@@ -44,6 +46,8 @@ By offloading your long-term storage to a database and only calling upon it when
 One of the most common sources of "hidden" token waste is output formatting. If you ask a model to "write a report," it may generate thousands of tokens of conversational filler, headers, and disclaimers. If you only need a specific piece of data, such as a sentiment score or a categorization tag, you are wasting tokens on the prose surrounding that data.
 
 Using structured output formats—such as JSON or specific schema definitions—can force the model to provide only the information you need. Many API providers offer specific parameters or "modes" that restrict the model's output to valid JSON or specific enumerations. By constraining the model to a schema, you drastically reduce the length of the response, keeping the model focused on the requested data payload rather than creative writing.
+
+One pattern I ended up relying on: split generation into two calls instead of demanding one giant structured response. In my own pipeline, I first ask for the long free-form content, then make a second, much smaller call that extracts just the metadata (title, tags, summary) as JSON. Smaller models frequently mangle a big combined "content + metadata" JSON schema, and one malformed response means regenerating *everything* — burning far more tokens than the extra call costs. Two focused requests proved both cheaper and more reliable than one fragile mega-prompt.
 
 
 
