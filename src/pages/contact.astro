@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+const baseTrim = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title="Contact — AI Tech Blog" description="How to contact the author of AI Tech Blog for corrections, questions, or feedback.">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">Contact</h1>
+    <div class="prose max-w-none text-gray-800 dark:text-gray-200">
+      <p>
+        The best way to reach me is by email. I welcome corrections most of all — if you
+        spot a technical error in any post, please tell me and I will fix it.
+      </p>
+      <p>
+        <strong>Email:</strong>
+        <a href="mailto:bumjun0097@gmail.com">bumjun0097@gmail.com</a>
+      </p>
+      <h2>What to Contact Me About</h2>
+      <ul>
+        <li>Corrections or inaccuracies in a published article</li>
+        <li>Questions about a topic covered on this blog</li>
+        <li>Suggestions for topics you would like to see covered</li>
+        <li>Anything related to the <a href={`${baseTrim}/privacy-policy`}>privacy policy</a> or your data</li>
+      </ul>
+      <p>I usually reply within a few days.</p>
+    </div>
+  </div>
+</Layout>

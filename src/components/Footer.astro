@@ -1,8 +1,14 @@
 ---
 const year = new Date().getFullYear();
+const baseTrim = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <footer class="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 py-8 mt-16 transition-colors duration-200">
   <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 dark:text-gray-400 text-sm">
+    <nav class="mb-3 flex justify-center gap-4" aria-label="Footer navigation">
+      <a href={`${baseTrim}/about`} class="hover:text-gray-900 dark:hover:text-white no-underline transition-colors duration-200">About</a>
+      <a href={`${baseTrim}/contact`} class="hover:text-gray-900 dark:hover:text-white no-underline transition-colors duration-200">Contact</a>
+      <a href={`${baseTrim}/privacy-policy`} class="hover:text-gray-900 dark:hover:text-white no-underline transition-colors duration-200">Privacy Policy</a>
+    </nav>
     &copy; {year} AI Tech Blog. Built with Astro.
   </div>
 </footer>

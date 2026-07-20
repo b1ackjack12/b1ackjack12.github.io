@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+const baseTrim = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title="About — AI Tech Blog" description="About this blog and its author: an algorithm developer working on IMU sensor fusion and image processing.">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">About</h1>
+    <div class="prose max-w-none text-gray-800 dark:text-gray-200">
+      <h2>About This Blog</h2>
+      <p>
+        This blog is my personal study log. I write about the machine learning and
+        engineering topics I am actively learning and using at work — PyTorch internals,
+        GPU environments, model optimization for edge devices, and the practical side of
+        working with large language models.
+      </p>
+      <p>
+        Writing things down forces me to actually understand them. Publishing them keeps
+        me honest: every article here is reviewed and fact-checked before it goes live,
+        and I correct posts when I find mistakes.
+      </p>
+
+      <h2>About the Author</h2>
+      <p>
+        I write under the name <strong>B1ack</strong>. I work as an <strong>algorithm
+        developer for IMU sensors and image processing</strong>. My day-to-day work
+        involves sensor signal processing, computer vision pipelines, and deploying
+        models to resource-constrained hardware — which is why topics like CUDA setup,
+        pipeline profiling, and quantization show up often on this blog.
+      </p>
+
+      <h2>What You Will Find Here</h2>
+      <ul>
+        <li>Deep learning framework internals and practical usage (PyTorch, JAX)</li>
+        <li>GPU and development environment setup guides</li>
+        <li>Model optimization for edge and embedded targets</li>
+        <li>Notes on evaluating and integrating large language models</li>
+      </ul>
+
+      <h2>Get in Touch</h2>
+      <p>
+        Found an error, or want to discuss a topic? See the
+        <a href={`${baseTrim}/contact`}>contact page</a> — I read every message.
+      </p>
+    </div>
+  </div>
+</Layout>
