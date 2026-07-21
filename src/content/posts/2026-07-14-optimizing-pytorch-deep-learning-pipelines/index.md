@@ -49,6 +49,8 @@ with profile(
 
 The `schedule` matters more than it looks: profiling every step distorts the timings you are trying to measure, so skipping the first iterations (which include CUDA context setup and worker spin-up) and sampling a few steady-state steps gives a far more honest picture. The telltale signature of data starvation in the resulting trace is a repeating pattern of GPU idle gaps at the start of every iteration, right before the forward pass kernels launch.
 
+One Windows-specific gotcha I ran into while testing this exact snippet: the run completed without any exception, but no trace file ever appeared — only an easy-to-miss `Failed to open ... .pt.trace.json` line buried in the log. The cause turned out to be non-ASCII characters in my machine's hostname, which the profiler embeds in the trace filename by default and then fails to write. The fix is one argument: `tensorboard_trace_handler("./log", worker_name="worker0")`. If your traces silently go missing on Windows, check that before you suspect your code.
+
 ## Addressing Data Loading Bottlenecks
 If your profile indicates that the `DataLoader` is the primary source of delay, the solution is usually found in the `num_workers` and `pin_memory` configurations. 
 
