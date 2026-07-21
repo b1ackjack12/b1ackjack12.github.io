@@ -31,7 +31,7 @@ Installing the CUDA Toolkit
    ```bash
    sudo sh cuda_<version>_linux.run
    ```  
-   Select the *CUDA Toolkit* and *CUDA Samples*, and refrain from installing the *CUDA Driver* if your system already has a recent driver that satisfies the minimum requirement.  
+   Select the *CUDA Toolkit*, and refrain from installing the *CUDA Driver* if your system already has a recent driver that satisfies the minimum requirement. (The sample programs are no longer bundled with the installer; they live in NVIDIA's `cuda-samples` repository on GitHub these days.)  
 4. **Verify the compiler** – After installation, the toolkit installs `nvcc` in `/usr/local/cuda/bin`.  
    ```bash
    nvcc --version
@@ -42,14 +42,16 @@ By default, the toolkit installs the runtime library into `/usr/local/cuda/lib64
 Installing cuDNN
 ================
 
-cuDNN is distributed as a compressed archive (`cudnn_<version>_linux_x64-v<version>.tgz`). Extract it into the same `/usr/local/cuda` prefix you used for the toolkit:
+cuDNN is distributed as a compressed archive (`cudnn-linux-x86_64-<version>_cuda<major>-archive.tar.xz`). Extract it and copy the headers and libraries into the same `/usr/local/cuda` prefix you used for the toolkit:
 
 ```bash
-tar -xzvf cudnn_<version>_linux_x64-v<version>.tgz
-sudo cp -r cuda/* /usr/local/cuda/
+tar -xvf cudnn-linux-x86_64-<version>_cuda<major>-archive.tar.xz
+sudo cp cudnn-*-archive/include/cudnn*.h /usr/local/cuda/include
+sudo cp -P cudnn-*-archive/lib/libcudnn* /usr/local/cuda/lib64
+sudo chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*
 ```
 
-The extraction creates a `cuda` folder inside your extraction directory; copying its contents into `/usr/local/cuda` ensures that headers sit at `/usr/local/cuda/include` and libraries at `/usr/local/cuda/lib64`. An official guide also recommends setting the file permissions so that only users with sudo can modify the installation.
+The extraction creates a `cudnn-*-archive` folder containing `include` and `lib` directories; copying them into `/usr/local/cuda` keeps everything discoverable under one prefix. Two details matter here. The `-P` flag preserves the symbolic links between the versioned library files — omit it and every `.so` symlink turns into a full duplicate copy. And if you are following an older tutorial that says the archive extracts to a plain `cuda/` folder with a `lib64` directory: that was the legacy `.tgz` layout used up through cuDNN 8.2, and it no longer matches what NVIDIA ships.
 
 
 
@@ -74,7 +76,7 @@ export CUDA_HOME=/usr/local/cuda
 export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 ```
 
-You can also add `$CUDA_HOME/bin` to your `PATH` to make utilities like `nvcc` and `deviceQuery` directly executable.
+You can also add `$CUDA_HOME/bin` to your `PATH` to make utilities like `nvcc` directly executable.
 
 A handy checklist for setting up your environment is listed below:
 

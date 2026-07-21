@@ -72,6 +72,7 @@ from torch.amp import autocast, GradScaler
 scaler = GradScaler("cuda")
 
 for data, target in loader:
+    data, target = data.to("cuda"), target.to("cuda")
     optimizer.zero_grad()
 
     # Enable Mixed Precision
@@ -117,7 +118,7 @@ Bringing a PyTorch model from a Jupyter notebook to a production environment inv
 | **CPU inference on a server** | TorchScript | Convert the model to a serializable graph that runs independently of Python. |
 | **GPU inference in the cloud** | TorchServe | Deploy microservices with autoscaling and multi‑model support. |
 | **Edge devices** | TensorRT | Convert PyTorch to ONNX, then to TensorRT for maximum throughput and low latency. |
-| **Dynamic Graph Compilation** | `torch.compile` | Use Python 3.10+ and `torch.compile(model)` for JIT compilation that rivals custom C++ implementations. |
+| **Dynamic Graph Compilation** | `torch.compile` | On PyTorch 2.x, wrap the model with `torch.compile(model)` for JIT compilation that can rival custom C++ implementations. |
 
 For the embedded vision work I do, the ONNX → TensorRT route has been the most reliable path, but it forces you to keep your model's operations within the ONNX-exportable subset — worth checking *before* you build an architecture around an exotic custom op.
 
