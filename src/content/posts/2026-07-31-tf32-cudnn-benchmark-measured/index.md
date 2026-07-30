@@ -16,7 +16,7 @@ torch.backends.cudnn.benchmark = True
 torch.set_float32_matmul_precision("high")   # allow TF32
 ```
 
-Free speed, the checklists say. I have pasted these lines into scripts for years without once measuring what they did — which, given how this blog has been going, is exactly the kind of claim I should be pointing a stopwatch at. So I did: PyTorch 2.6.0, RTX 4080 Super, median of 50 timed iterations after warmup, `torch.cuda.synchronize()` around everything. The results rearranged my mental ranking of these flags almost completely.
+Free speed, the checklists say. I have pasted these lines into scripts for years without ever checking what they were worth, and this week I finally got curious enough to time them properly: PyTorch 2.6.0, RTX 4080 Super, median of 50 timed iterations after warmup, `torch.cuda.synchronize()` around everything. The results rearranged my mental ranking of these flags almost completely.
 
 ## TF32 on matmul: real, but count the digits
 
@@ -48,4 +48,4 @@ Stacked together on this workload: all flags off, 21.40 ms; everything on, 17.61
 
 For my own work: `set_float32_matmul_precision("high")` goes in by default for training (and gets flipped to `"highest"` the moment I'm chasing a numerical discrepancy — it's one line, and [I've already been burned](/posts/quantizing-onnx-models-in-practice) by assuming precision changes are free). `cudnn.benchmark` goes in only for fixed-shape training, without expectations, because on this hardware it's a 3% flag with a 130-millisecond-per-shape temper. And `cudnn.allow_tf32` I now leave alone but *know about*, which is the part that was actually missing.
 
-The meta-lesson is the same one this blog keeps producing, and I'll keep writing it down as long as it keeps being true: performance advice ages, hardware moves, defaults shift underneath the folklore — and the flags everyone recites can be quietly outperformed by the ones nobody mentions. The two-line incantation at the top of this post took me ten years to question and one afternoon to measure. The measuring was cheaper.
+None of this makes the checklists wrong so much as expired. Performance advice ages, hardware moves, defaults shift underneath the folklore — and the flags everyone recites can be quietly outperformed by the ones nobody mentions. The two-line incantation at the top of this post sat in my scripts unquestioned for years; settling the question took one afternoon and a stopwatch. I know which of those habits I'm keeping.
