@@ -12,65 +12,28 @@ tags: ["llm", "ai-engineering", "rag", "evaluation", "machine-learning"]
 
 My background is in signal processing, where we would never ship an algorithm based on a single aggregate statistic — you look at error distributions, edge cases, and failure modes on real data. So when I started integrating LLMs into my own tooling and saw model comparisons based almost entirely on perplexity, it struck me as judging a camera by its megapixel count: correlated with quality, but nowhere near sufficient.
 
-For years, perplexity has been the default "gold standard" when we talk about measuring a Large Language Model’s (LLM) quality. A lower perplexity implies that a model is better at guessing the next token. In practice, it translates to how well a model predicts text in a vacuum, but it tells little about real‑world task performance—think code generation, legal‑text summarization, or conversational agents that need to meet business rules.
+Let me be fair to perplexity first, because "vanity metric" is a strong charge. Perplexity measures how confidently a model predicts the next token on a held-out corpus, and for its intended job — tracking pre-training progress, comparing checkpoints trained on the same data — it is genuinely useful. The problem starts when it escapes that context and becomes a proxy for "this model is better at your task." It measures prediction in a vacuum. Your task does not happen in a vacuum.
 
----
+## The lesson I keep relearning: proxy metrics lie in both directions
 
-## 1.  From Tokens to Outcomes
-When an LLM is deployed as part of a production stack, you must treat it the same way you treat a database or a web server: as a component that accepts inputs, applies business logic, and emits outputs that influence downstream decisions. Perplexity falls short because it ignores that logic entirely.
+I got a vivid demonstration of this recently in a completely different domain. While [quantizing a model to int8](/posts/quantizing-onnx-models-in-practice), I compared raw outputs between the original and quantized versions and found a worst-case deviation of 2.34 — a number that looked catastrophic next to the float-precision diffs I was used to. Then I measured what mattered: the two models agreed on 99.5% of actual predictions, and test accuracy was unchanged. The proxy metric screamed; the task metric shrugged.
 
-A practical evaluation framework has three layers:
+Perplexity fails the same way, in both directions. A model can post excellent perplexity on general text and still mangle your JSON schema, hallucinate a field name, or ignore the one constraint your pipeline depends on — the proxy shrugs while the task screams. And a model fine-tuned toward terse, structured outputs can show *worse* perplexity on free-form text while being strictly better at the job you hired it for. If a single scalar can move in the wrong direction for both false positives and false negatives, it cannot be your acceptance criterion.
 
-1. **Functional correctness** – Does the output meet the explicit specification?  
-2. **Semantic alignment** – Does the output convey the intended meaning or result?  
-3. **Guardrail compliance** – Does the output remain within safety and policy boundaries?
+## What I check instead: three layers
 
-Missing any of these layers is equivalent to running a unit test that only checks syntactic validity and nothing else.
+When an LLM sits inside a pipeline, I treat it like any other component — a thing that accepts inputs and must emit outputs the next stage can consume. That framing gives you three layers of evaluation, in order of how cheap they are to automate:
 
----
+**1. Functional correctness.** Does the output run, parse, or validate? For anything executable or structured, this is binary and fully automatable: parse the JSON against the schema, execute the generated query against a staging database, run the generated code against a test suite. This is the layer public code benchmarks like HumanEval operationalize — pass/fail on execution, not resemblance to a reference answer. In my own tooling this layer catches the large majority of failures, and it costs almost nothing to run.
 
-## 2.  Semantic Similarity Shift
-The transition to Retrieval‑Augmented Generation (RAG) has shifted the highest‑valued metric from exact‑match to semantic relevance. A common approach in RAG evaluation is to use embedding‑based similarity scores such as **BERTScore** or cosine similarity on dense vectors from sentence‑embedding models like **SBERT**. These methods tolerate synonyms and re‑phrasing while still requiring that the vector distance between a generated response and the reference stays below an empirically determined threshold.
+**2. Semantic alignment.** For open-ended text where exact match is meaningless, embedding-based similarity against a reference (cosine similarity on sentence embeddings, BERTScore) gives a tolerant but quantifiable check — synonyms and rephrasings pass, actual meaning drift fails. The threshold is empirical and task-specific; treat it like any other tuned parameter, with a validation set, not a number copied from a blog post. Including this one.
 
-When you evaluate a summarization engine, set up a validation pipeline that:
+**3. Guardrail compliance.** Format constraints, policy constraints, "never do X" rules. These deserve their own layer because they fail independently of quality — a response can be correct, fluent, *and* violate the one formatting rule your parser depends on. Cheap regex-level checks here have saved me from silent pipeline corruption more than once.
 
-- Embeds both the generated summary and a trusted gold‑standard.  
-- Calculates cosine similarity.  
-- Accepts a pass if the similarity exceeds a tunable threshold (e.g., 0.85).
+For subjective qualities that none of these layers capture — tone, style adherence, judgment calls — the LLM-as-a-judge pattern (a stronger model grading a weaker one against a rubric) is the practical compromise the field has settled on. It works, with a caveat I'd underline: log the judge's ratings over time and spot-check a sample by hand. A judge model is itself an unvalidated component until you've done that.
 
-This approach is now routinely used in projects that involve legal and medical document summarization, where exact word‑match is too fragile.
+## The uncomfortable part: most failures are boring
 
----
+Here is what actually changed my mind about evaluation, and it isn't sophisticated: when I started logging failures from my own LLM-backed tooling, almost none of them were "the model wasn't smart enough." They were a truncated response that broke the parser, a field renamed from `summary` to `Summary`, a list where a string was expected, an instruction silently dropped once the context got long. Perplexity is blind to every single one of these. A schema validator catches them all, for free, on every call.
 
-## 3.  Task‑Specific Functional Correctness
-For tasks that involve code, queries or any executable output, *execution‑based evaluation* is the norm. Teams building text‑to‑SQL and code‑generation systems commonly run the generated queries against a staging database and compare the result set to a known‑correct answer (an oracle). The result is a binary pass/fail: if a script throws an exception or diverges from the expected rows, the model scores zero for that test case.
-
-A typical automated pipeline looks like this:
-
-1. **Generate** the code or query with the LLM.  
-2. **Deploy** it into an isolated Docker container that includes the necessary database schema.  
-3. **Run** a suite of SQL unit tests using `pytest` or `tavern`.  
-4. **Score** based on test success and runtime performance.
-
-This pattern is also common in widely used code benchmarks such as **HumanEval** and **MBPP**, ensuring that every new model is compared against the same functional criteria.
-
----
-
-## 4.  The LLM‑as‑a‑Judge Pattern  
-Subjective evaluations—like politeness, answer surface quality, or domain‑specific style—are often too expensive to gather with human annotators at scale. The community has therefore embraced the **LLM‑as‑a‑Judge** approach. A widely adopted pattern is to have a higher‑capacity model (for example, GPT‑4o) evaluate outputs from a smaller LLM, producing a verdict according to a rubric.
-
-To keep this subjective loop stable:
-
-| Rubric | Description |
-|--------|-------------|
-| **Logical Consistency** | The answer must not contain internal contradictions. |
-| **Constraint Satisfaction** | Output format, e.g., JSON only, is respected. |
-| **Conciseness** | No extraneous filler or jargon. |
-
-Because the judge model is more capable, the variance in evaluation is lower, but the process should still record the judge’s confidence score (e.g., a log‑probability or a 1–5 rating) so that borderline cases can be surfaced for human review.
-
----
-
-## Conclusion
-
-Perplexity still has its place—for pre‑training diagnostics and comparing models on the same corpus—but it is a poor proxy for whether a model actually does its job. Production systems demand a layered view: **functional correctness** (does the output run and meet the spec?), **semantic alignment** (does it preserve meaning?), and **guardrail compliance** (does it stay within policy?). Combine execution‑based tests for anything verifiable, embedding‑based similarity for open‑ended text, and an LLM‑as‑a‑judge for subjective quality—then track those metrics over time the way you would monitor any other production service. Measure outcomes, not just token probabilities.
+That's the signal-processing instinct translated to LLMs: aggregate statistics are for dashboards; error distributions and failure modes are for decisions. Perplexity earned its place in pre-training curves and it can keep it. But if a number is going to gate what ships, it should be a number computed on *your* task, with *your* constraints, over *your* real inputs — layered from "does it parse" up through "does it mean the right thing." Measure outcomes, not token probabilities.

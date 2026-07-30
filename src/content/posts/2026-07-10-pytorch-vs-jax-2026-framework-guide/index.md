@@ -11,60 +11,36 @@ tags: ["pytorch", "jax", "deep learning", "ai infrastructure"]
 
 Every few months someone asks me whether they should "switch to JAX," usually after seeing an impressive benchmark or a research paper's codebase. My honest answer: for the kind of work I do — vision models that eventually have to run on real hardware — I have stayed with PyTorch, and the reasons have little to do with raw speed.
 
-The world of deep‑learning frameworks may feel like a “choose‑one” game if you only focus on a single ledger of features. In reality, the ecosystem has become highly segmented: **PyTorch** serves as the production workhorse; **JAX** has carved out a niche for research‑grade, high‑performance workloads that require fine-grained control over the compiled graph. The practical decision, however, depends less on who is “better” and more on how your project’s *deployment pipeline* and *computational needs* map to these strengths.
+Full disclosure before anything else: I use PyTorch daily and have never shipped JAX to production. I've read JAX codebases, ported small pieces of them, and evaluated it seriously enough to decide against it *for my constraints* — but this is a practitioner's account from one side of the fence, not a neutral survey. Weight it accordingly.
 
----
+## The question that actually decides it
 
-### 1.  XLA – The Engine That Powers Both Worlds
+Framework debates usually orbit training speed, and that's the least decision-relevant axis for me. Both ecosystems compile to fast kernels these days — JAX lowers everything to XLA by design, PyTorch reaches similar territory through `torch.compile` — and for most real models the gap between well-written code in either framework is smaller than the gap between well-written and careless code in the same framework. Benchmarks comparing the two are usually really comparing how much effort someone spent on each side.
 
-XLA (Accelerated Linear Algebra) is the low‑level compiler that translates high‑level tensor operations into highly optimised kernels for CPUs, GPUs, and TPUs. Both PyTorch (via `torch.compile`) and JAX (by default) can target XLA.
+The question that actually decides framework choice, in my experience, is: **what happens to the model after training?** My models leave Python. They get exported to ONNX, converted for embedded runtimes, integrated into C++ pipelines. I've written in detail about [what breaks during ONNX export](/posts/what-actually-breaks-exporting-pytorch-to-onnx) — and every one of those failure modes had documented history: GitHub issues, Stack Overflow answers, error messages other people had already hit and solved. That archaeological record is the real asset. PyTorch's export path is not elegant, but it is *traveled*, and when a conversion fails at 6 PM before a delivery, the density of prior art is worth more than any training-speed multiplier.
 
-| Framework | How XLA is used | Official Performance Notes |
-|-----------|-----------------|---------------------------|
-| **PyTorch** | `torch.compile` produces a compiled graph that reduces the overhead of dynamic dispatch in Python. | PyTorch documentation notes that `torch.compile` is designed to improve execution speed by capturing and optimizing model graphs, with performance gains varying significantly based on model architecture and hardware. |
-| **JAX** | All operations are lowered to XLA; the first JIT‑compiled function creates a static XLA module that can be cached across calls. | JAX leverages XLA to perform fusion of operations and kernel optimization, which generally provides significant performance improvements over uncompiled, imperative code. |
+JAX has export routes too (through XLA and the TF/TFLite ecosystem, and its own serialization story has improved), but the road is thinner exactly where my problems live. When I searched for others who had hit my class of edge-deployment issues in JAX, I mostly found silence. Silence in a search result is data.
 
-Because both frameworks target XLA, the actual performance ceiling is governed by the optimizer and the shape of the program you hand to XLA. The key distinctions arise in *how* you shape that program.
+## What JAX genuinely does better
 
----
+None of that makes JAX the loser; it makes it a tool optimized for a different job, and parts of it are honestly enviable.
 
-### 2.  Dynamic vs. Static Graphs – A Practical Contrast
+The function transformations are the real thing. `vmap` eliminates a whole category of batching boilerplate; `grad` composes in ways that make research code look like the math it implements; and the sharding machinery for very large models on TPU pods is famously concise where the PyTorch equivalent (FSDP and friends) demands more explicit configuration. If my day job were experimenting with novel architectures or training at cluster scale — especially on TPUs — the calculus would likely flip. The functional discipline JAX enforces (parameters as explicit state, pure functions everywhere) also produces codebases that are *reproducible* in a way imperative training scripts have to work hard to match. I notice this every time I read one.
 
-| Feature | PyTorch (Dynamic) | PyTorch + `torch.compile` (Static) | JAX (Static) |
-|---------|-------------------|----------------------------------|--------------|
-| **Ease of Debugging** | Classic Python debugging (print, pdb) works directly on the graph. | Debugging can be done pre‑compile, but once compiled, only XLA diagnostics are available. | Debugging occurs before `jit`; after compilation you only see XLA traces. |
-| **Execution Overhead** | Contains Python‑level dispatch and context‑switching, leading to noticeable per-op overhead for small, kernel-bound models. | Eliminates dispatch by compiling the entire call‑graph once. | Same static graph elimination; no dynamic dispatch overhead. |
-| **Hardware Flexibility** | Works on CPU, GPU, and CUDA; XLA fallback only on supported devices. | Triggers XLA when available; otherwise falls back to the eager runtime. | Mandatory XLA; requires a TPU or GPU that supports it (e.g., A100, v4 TPU). |
-| **Memory Consumption** | Handles fine‑grained tensor lifetimes; may consume less memory for small models. | In-JIT a static shape is required; resizing may trigger re‑allocation. | Requires static shape awareness; large index‑based tensors must be pre‑allocated. |
+There's also a sharper way to put it: JAX optimizes for the person writing the next paper; PyTorch optimizes for the person shipping the last one. Both are legitimate jobs. Mine is the second kind.
 
-For many production workloads, the slight execution overhead of eager PyTorch is acceptable, especially when combined with TorchScript and `torch.export`, which compile a model into a standalone artifact for C++ (LibTorch) deployment—or ONNX export when you need a portable, protobuf-based interchange format. When you need to optimize for low-latency inference on high-throughput GPUs, `torch.compile` with XLA is the recommended path.
+## Two practical footnotes from my actual desk
 
----
+First: `torch.compile`, the centerpiece of PyTorch's modern performance story, does not run on Windows — on my own Windows machine, PyTorch 2.6 simply refuses. If you develop on Windows like I do, PyTorch's compiled-mode benchmarks describe a machine you don't have, and eager-mode performance is what you actually live with. (JAX on native Windows is similarly a second-class citizen; in both ecosystems, Linux is where the paved road is.)
 
-### 3.  Choosing a Path – When to Pick Which Tool
+Second: the "both compile to XLA anyway" argument, which I used to repeat, deserves a caveat I've since earned the hard way. Sharing a compiler backend does not mean sharing behavior — what matters is what each frontend can *express* to the compiler and what it silently does when it can't. The [ONNX exporters taught me this](/posts/what-actually-breaks-exporting-pytorch-to-onnx): two exporters targeting the same format, one rejecting an operator the other handled fine. Compiler-backend convergence narrows the performance gap; it does nothing to narrow the ecosystem gap.
 
-#### 3.1  Production‑Ready Deployments
+## How I'd actually decide
 
-| Scenario | Recommended Framework | Why |
-|----------|-----------------------|-----|
-| Deploying a Transformer LLM in a Kubernetes cluster | **PyTorch** | TorchScript + `torch.export` yields an ONNX‑ready artifact that integrates with NVIDIA Triton. XLA backend can be enabled on GPU nodes for performance boosts. |
-| Packaging a vision model for edge or mobile | **PyTorch** | LibTorch C++ library and mobile tooling support Android/iOS; while JAX models can be exported via TFLite/XLA, PyTorch currently offers broader native ecosystem support for mobile deployment. |
-| Serving a diffusion model that needs per‑token incremental decoding | **PyTorch** | Retains native dynamic graph support which is easier to hook into incremental caching logic. |
+If someone forced me to compress this into advice, it would be a question list rather than a verdict:
 
-The second row is the one that decided it for me. When your target is an embedded board rather than a data center, the question is not "which framework trains faster" but "which framework has a battle-tested export path to my runtime." For ONNX-based toolchains, PyTorch's export story is simply more traveled — more documented failure modes, more Stack Overflow answers, fewer surprises at the conversion step.
+- **Where does the model run after training?** Embedded, mobile, C++, ONNX toolchains → PyTorch, on the strength of the traveled road. Stays in Python on datacenter GPUs/TPUs → either, lean JAX if the next point applies.
+- **Is your work research-shaped or product-shaped?** Novel architectures, heavy math, large-scale sharded training → JAX rewards you. Integrating, fine-tuning, shipping → PyTorch's ecosystem density pays daily.
+- **Who else is in the codebase?** PyTorch is the lingua franca; hiring for it and onboarding into it are simply easier. A team of two researchers can afford JAX's smaller pool. A rotating team of application engineers usually can't.
 
-#### 3.2  Research & Hyper‑Scale Training
-
-| Scenario | Recommended Framework | Why |
-|----------|-----------------------|-----|
-| Training a several‑hundred‑billion‑parameter model on a TPU v4 cluster | **JAX** | `pjit` + `sharding` express model/data parallelism across thousands of TPUs concisely; PyTorch offers similar scaling through FSDP and tensor/DTensor parallelism, though often with more explicit configuration. |
-| Building a fluid‑dynamic PINN where gradients must be computed across multi‑scope loops | **JAX** | `grad` and `vmap` provide easy, composable automatic differentiation over vectorised inputs, reducing boilerplate. |
-| Rapid prototyping of a new mathematical operator (e.g., a novel attention mechanism) | **JAX** | The functional API forces you to separate parameter storage and computation, leading to cleaner, more reproducible experiments. |
-
----
-
-## Conclusion
-
-There is no single “winner.” **PyTorch** is the pragmatic default: the richest ecosystem, the smoothest path from notebook to production, and broad hardware and deployment support. **JAX** rewards teams that need composable function transforms (`grad`, `vmap`, `pmap`), first-class TPU sharding, and tight control over what XLA compiles.
-
-A useful rule of thumb: pick **PyTorch** when your priority is shipping and integrating with existing tooling, and **JAX** when your priority is research velocity on large-scale or mathematically intensive workloads. Because both ultimately compile to XLA, the gap in raw performance is often smaller than the gap in developer experience—so let your team’s workflow, not benchmarks alone, drive the decision.
+The honest summary of 2026 as I see it from the deployment side: PyTorch remains the pragmatic default and JAX remains the specialist's scalpel, and the raw-performance argument between them matters far less than either community's marketing suggests. Let your deployment target and your team make the call — they will anyway, eventually, and it's cheaper if they do it before the framework is chosen rather than after.
