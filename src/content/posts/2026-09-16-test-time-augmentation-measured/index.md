@@ -11,6 +11,8 @@ tags: ["pytorch", "test-time augmentation", "inference", "statistics", "deployme
 
 Test-time augmentation has a reputation problem: it's the trick Kaggle winners confess to in the last paragraph, the thing production engineers wave off as leaderboard cosmetics. The idea is almost embarrassingly simple — run inference on several transformed copies of the input, average the probabilities — and because it multiplies serving cost, most advice online rounds it down to "not worth it in the real world" without a number attached. After a month of measuring training tricks whose true effects turned out to be [+0.08](/posts/ema-weights-measured), [+0.14](/posts/seed-noise-vs-real-improvements), or [zero](/posts/har-augmentation-fifty-splits), I wanted TTA on the same scale. Ten seeds of the usual tuned CIFAR ResNet18 recipe, each model evaluated four ways — plain, mirror-flip averaging, five 2-pixel shifts, and shifts-plus-flips — with every comparison paired within run, plus clean warmed-up GPU timings for the actual price tag.
 
+> **Update (2026-10-22):** the cost column below is the *worst case* — these timings run each view as a separate forward pass at a saturating batch size. A good question about batching the views together prompted [a full repricing](/posts/tta-serving-price-measured): with views concatenated into one batch, flip TTA costs ~1.0–1.4x at small serving batches, and the full 10-view set drops to 1.08x at batch 1. The accuracy numbers here are unaffected.
+
 ## The table that made me sit up
 
 | view set | views | paired delta vs plain | wins | inference cost (512 imgs) |
