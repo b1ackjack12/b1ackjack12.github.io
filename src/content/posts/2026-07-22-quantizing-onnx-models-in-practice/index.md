@@ -9,9 +9,9 @@ thumbnail: "./thumbnail.jpg"
 tags: ["quantization", "onnx", "deployment", "edge computing", "deep-learning"]
 ---
 
-A while ago I wrote about [quantization from the deployment side](/posts/optimizing-deep-learning-models-for-edge-via-quantization) — PTQ vs. QAT, hardware constraints, calibration data. That post had a weakness I was aware of while writing it: no numbers. Every quantization article says "roughly 4x smaller, significantly faster, minimal accuracy loss," and almost none of them show a measurement you can argue with.
+A while ago I wrote about [quantization from the deployment side](/posts/optimizing-deep-learning-models-for-edge-via-quantization/) — PTQ vs. QAT, hardware constraints, calibration data. That post had a weakness I was aware of while writing it: no numbers. Every quantization article says "roughly 4x smaller, significantly faster, minimal accuracy loss," and almost none of them show a measurement you can argue with.
 
-So this time I did the whole thing end to end on my machine and wrote down what actually happened. The setup: a small CNN trained on FashionMNIST to 88.1% test accuracy, exported to ONNX with the checks from [my export post](/posts/what-actually-breaks-exporting-pytorch-to-onnx) (dynamic batch axis, output parity `7.6e-06` against PyTorch). Tools: PyTorch 2.6.0, onnxruntime 1.20, running on a desktop Zen 4 CPU. Every number below is from a real run.
+So this time I did the whole thing end to end on my machine and wrote down what actually happened. The setup: a small CNN trained on FashionMNIST to 88.1% test accuracy, exported to ONNX with the checks from [my export post](/posts/what-actually-breaks-exporting-pytorch-to-onnx/) (dynamic batch axis, output parity `7.6e-06` against PyTorch). Tools: PyTorch 2.6.0, onnxruntime 1.20, running on a desktop Zen 4 CPU. Every number below is from a real run.
 
 Spoiler: two of the three headline claims held up, and the third failed in an instructive way.
 
@@ -107,7 +107,7 @@ Size: 4x, as always. Speed: **nothing.** Within measurement noise, identical —
 
 ![Two views of the same quantized model: on a desktop CPU the speedup bar is flat, on an NPU with INT8 MACs it is tall](./figure-2.jpg)
 
-This is the measured version of the argument in the [edge deployment post](/posts/optimizing-deep-learning-models-for-edge-via-quantization): quantization's latency win comes from *hardware with dedicated integer units* — NPU MACs, DSP instructions — not from int8 being magically cheaper everywhere. On my workstation, static quantization of ResNet18 buys memory footprint and bandwidth, which on an embedded target is often the binding constraint anyway. But if you benchmark on your development machine and promise a 3x speedup on the device, you are writing a check the silicon may not cash — in either direction.
+This is the measured version of the argument in the [edge deployment post](/posts/optimizing-deep-learning-models-for-edge-via-quantization/): quantization's latency win comes from *hardware with dedicated integer units* — NPU MACs, DSP instructions — not from int8 being magically cheaper everywhere. On my workstation, static quantization of ResNet18 buys memory footprint and bandwidth, which on an embedded target is often the binding constraint anyway. But if you benchmark on your development machine and promise a 3x speedup on the device, you are writing a check the silicon may not cash — in either direction.
 
 ## What I'd tell someone doing this for the first time
 

@@ -9,11 +9,11 @@ thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "reproducibility", "statistics", "deep learning", "evaluation"]
 ---
 
-A few weeks ago I showed that [the same seed doesn't even give you the same model](/posts/pytorch-same-seed-different-model) on a GPU. Today's question is one level up and more expensive to ignore: when you compare two training configurations — baseline versus your clever new trick — how much of the difference is the trick, and how much is which lottery numbers the seeds drew? I've written ablation comparisons my whole working life on the strength of one run per side. This post is me checking, thirty training runs late, whether any of them meant anything.
+A few weeks ago I showed that [the same seed doesn't even give you the same model](/posts/pytorch-same-seed-different-model/) on a GPU. Today's question is one level up and more expensive to ignore: when you compare two training configurations — baseline versus your clever new trick — how much of the difference is the trick, and how much is which lottery numbers the seeds drew? I've written ablation comparisons my whole working life on the strength of one run per side. This post is me checking, thirty training runs late, whether any of them meant anything.
 
 ## Fifteen identical models
 
-Setup: ResNet18 on CIFAR-10, 10 epochs, SGD with cosine schedule — the kind of short-schedule experiment people actually use to make decisions. Fifteen runs where *nothing* changes except the seed. (Each run takes 98 seconds, thanks to [Tuesday's persistent_workers fix](/posts/dataloader-num-workers-windows) — which is what made a 30-run experiment feel affordable at all.)
+Setup: ResNet18 on CIFAR-10, 10 epochs, SGD with cosine schedule — the kind of short-schedule experiment people actually use to make decisions. Fifteen runs where *nothing* changes except the seed. (Each run takes 98 seconds, thanks to [Tuesday's persistent_workers fix](/posts/dataloader-num-workers-windows/) — which is what made a 30-run experiment feel affordable at all.)
 
 The fifteen final test accuracies: mean **87.86%**, standard deviation **1.17%p**, and a full range of **4.58 percentage points** — the luckiest seed landed 89.43%, the unluckiest 84.85%. Same code, same data, same hyperparameters. If those two runs had appeared in a table as "baseline" and "ours", the fake improvement would have been larger than most claimed contributions I've ever read.
 
@@ -40,6 +40,6 @@ It gets worse. Even with all fifteen seeds per arm, the gap isn't statistically 
 
 ## What survives this
 
-Honest scope first: variance shrinks as schedules lengthen — converged 200-epoch CIFAR runs are commonly reported near 0.1–0.2%p std, an order of magnitude tighter than my 10-epoch runs. But that cuts the wrong way. Short schedules are precisely where hyperparameter choices, architecture tweaks, and "quick checks" get decided in practice; the sloppiest statistics live exactly where the decisions are made. And per the [determinism post](/posts/pytorch-same-seed-different-model), all of this sits *on top of* same-seed GPU non-determinism.
+Honest scope first: variance shrinks as schedules lengthen — converged 200-epoch CIFAR runs are commonly reported near 0.1–0.2%p std, an order of magnitude tighter than my 10-epoch runs. But that cuts the wrong way. Short schedules are precisely where hyperparameter choices, architecture tweaks, and "quick checks" get decided in practice; the sloppiest statistics live exactly where the decisions are made. And per the [determinism post](/posts/pytorch-same-seed-different-model/), all of this sits *on top of* same-seed GPU non-determinism.
 
 What I've actually changed: three seeds minimum for anything I'll act on, five if the gap looks smaller than a point, always reported as mean ± std — and a gap has to beat twice its standard error before I'm allowed to have an opinion about it. Effects too small to detect this way get treated as undetected, not as small wins. That discipline costs 3–5x the compute, which is the real reason nobody applies it — and why I spent Tuesday making each run cost 98 seconds instead of four minutes. Cheap runs aren't just convenient. They're what makes honest statistics affordable.

@@ -16,7 +16,7 @@ Let me be fair to perplexity first, because "vanity metric" is a strong charge. 
 
 ## The lesson I keep relearning: proxy metrics lie in both directions
 
-I got a vivid demonstration of this recently in a completely different domain. While [quantizing a model to int8](/posts/quantizing-onnx-models-in-practice), I compared raw outputs between the original and quantized versions and found a worst-case deviation of 2.34 — a number that looked catastrophic next to the float-precision diffs I was used to. Then I measured what mattered: the two models agreed on 99.5% of actual predictions, and test accuracy was unchanged. The proxy metric screamed; the task metric shrugged.
+I got a vivid demonstration of this recently in a completely different domain. While [quantizing a model to int8](/posts/quantizing-onnx-models-in-practice/), I compared raw outputs between the original and quantized versions and found a worst-case deviation of 2.34 — a number that looked catastrophic next to the float-precision diffs I was used to. Then I measured what mattered: the two models agreed on 99.5% of actual predictions, and test accuracy was unchanged. The proxy metric screamed; the task metric shrugged.
 
 Perplexity fails the same way, in both directions. A model can post excellent perplexity on general text and still mangle your JSON schema, hallucinate a field name, or ignore the one constraint your pipeline depends on — the proxy shrugs while the task screams. And a model fine-tuned toward terse, structured outputs can show *worse* perplexity on free-form text while being strictly better at the job you hired it for. If a single scalar can move in the wrong direction for both false positives and false negatives, it cannot be your acceptance criterion.
 

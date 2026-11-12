@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "gpu", "memory", "performance", "deep-learning"]
 ---
 
-After [a week of making a training step faster](/posts/torch-compile-on-windows), this post is about the other budget: memory. The question was supposed to be simple — on my 16 GB RTX 4080 Super, how large a ResNet50 batch fits, and what do gradient checkpointing and gradient accumulation cost when it doesn't? I expected the experiment to end the way these always end, with `CUDA out of memory` and a stack trace.
+After [a week of making a training step faster](/posts/torch-compile-on-windows/), this post is about the other budget: memory. The question was supposed to be simple — on my 16 GB RTX 4080 Super, how large a ResNet50 batch fits, and what do gradient checkpointing and gradient accumulation cost when it doesn't? I expected the experiment to end the way these always end, with `CUDA out of memory` and a stack trace.
 
 The stack trace never came. Something quieter and considerably worse happened instead, and it changed what the post is about.
 

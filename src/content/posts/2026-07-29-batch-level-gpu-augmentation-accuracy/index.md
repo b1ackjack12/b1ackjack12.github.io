@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "data augmentation", "deep-learning", "experiments", "torchvision"]
 ---
 
-[My last post](/posts/gpu-image-augmentation-torchvision-v2) ended on an IOU: batched GPU augmentation was 13x faster than CPU workers, but every image in a batch silently shares the same random crop, jitter, and blur — and I didn't know whether that mattered for accuracy. "I'd rather measure it than guess in print," I wrote. This is the measurement.
+[My last post](/posts/gpu-image-augmentation-torchvision-v2/) ended on an IOU: batched GPU augmentation was 13x faster than CPU workers, but every image in a batch silently shares the same random crop, jitter, and blur — and I didn't know whether that mattered for accuracy. "I'd rather measure it than guess in print," I wrote. This is the measurement.
 
 The setup is deliberately small so I could afford repetition: CIFAR-10 restricted to 10,000 training images (a smaller training set amplifies augmentation effects, which is the phenomenon under test), a compact 6-conv-layer network with batch norm, 20 epochs of SGD with cosine decay, batch size 128, RTX 4080 Super. The augmentation recipe is the standard CIFAR trio — `RandomCrop(32, padding=4)`, horizontal flip, color jitter — applied three ways:
 
@@ -61,7 +61,7 @@ The difference is 0.07 percentage points. Seed-to-seed noise is 0.3 to 0.5 point
 
 ## The result hiding in the wall-clock column
 
-Meanwhile, the column nobody was arguing about: per-batch runs finished in 10 seconds — *identical to training with no augmentation at all* — while per-sample runs took 53 to 71 seconds. The entire augmentation pipeline vanished from the budget. That's the [previous post's 13x microbenchmark](/posts/gpu-image-augmentation-torchvision-v2) surviving contact with a real training loop: end to end, the fast path trained six times faster while matching the textbook path's accuracy to within noise.
+Meanwhile, the column nobody was arguing about: per-batch runs finished in 10 seconds — *identical to training with no augmentation at all* — while per-sample runs took 53 to 71 seconds. The entire augmentation pipeline vanished from the budget. That's the [previous post's 13x microbenchmark](/posts/gpu-image-augmentation-torchvision-v2/) surviving contact with a real training loop: end to end, the fast path trained six times faster while matching the textbook path's accuracy to within noise.
 
 For an experiment-heavy workflow, that compounds brutally. Twenty-five training runs went into this post; on the per-sample pipeline they would have taken about half an hour, on the per-batch pipeline under five minutes. The 25-model experiment you actually run beats the statistically immaculate one you don't.
 
@@ -73,4 +73,4 @@ I want to be precise here, because "it's fine" is exactly the kind of unqualifie
 
 The quieter lesson is the one from the middle of the post: my first five seeds produced a clean, publishable, *wrong* ordering. Nothing about the setup was sloppy — same code, same data, honest averaging — and it still head-faked me, because a 0.3-point effect simply cannot be resolved with five samples of 0.3-to-0.6-point noise. If a blog post (including mine) reports a small accuracy difference from a handful of runs without spreads, treat it as an anecdote. The cheap fix is the one this post's speedup happens to buy: when each run costs 10 seconds, there is no excuse not to run ten of them.
 
-So the [gotcha from last week](/posts/gpu-image-augmentation-torchvision-v2) gets its verdict, at least for my workloads: real mechanism, unmeasurable damage, and the fast path is now my default for image experiments. The dice are loaded per batch — it turns out the model doesn't care nearly as much as I feared. Measure it on the augmentation policy you actually use before you take my word for it.
+So the [gotcha from last week](/posts/gpu-image-augmentation-torchvision-v2/) gets its verdict, at least for my workloads: real mechanism, unmeasurable damage, and the fast path is now my default for image experiments. The dice are loaded per batch — it turns out the model doesn't care nearly as much as I feared. Measure it on the augmentation policy you actually use before you take my word for it.

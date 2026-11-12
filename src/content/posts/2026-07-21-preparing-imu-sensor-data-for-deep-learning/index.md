@@ -64,7 +64,7 @@ Split at the highest level that matters for your deployment: by subject if the m
 
 ## Wiring it into PyTorch
 
-Once the decisions above are made, the actual `Dataset` is boring — which is how it should be. The one design choice I'd argue for: do the resampling, filtering, and windowing offline, store the results, and keep `__getitem__` nearly free. IMU tensors are tiny compared to images; precomputing everything costs little disk and removes an entire category of CPU-bottleneck problems from training (a topic I covered in the [pipeline profiling post](/posts/optimizing-pytorch-deep-learning-pipelines)).
+Once the decisions above are made, the actual `Dataset` is boring — which is how it should be. The one design choice I'd argue for: do the resampling, filtering, and windowing offline, store the results, and keep `__getitem__` nearly free. IMU tensors are tiny compared to images; precomputing everything costs little disk and removes an entire category of CPU-bottleneck problems from training (a topic I covered in the [pipeline profiling post](/posts/optimizing-pytorch-deep-learning-pipelines/)).
 
 ```python
 import torch

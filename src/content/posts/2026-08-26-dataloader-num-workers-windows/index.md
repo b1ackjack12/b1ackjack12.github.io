@@ -11,7 +11,7 @@ tags: ["pytorch", "dataloader", "windows", "performance", "training"]
 
 The standard advice for a slow PyTorch input pipeline is one line long: set `num_workers` to something bigger than zero and let subprocesses prepare batches while the GPU trains. I've typed that line on autopilot for years. This week I finally measured it on my own machine — Windows, RTX 4080 SUPER, ResNet18 on CIFAR-10 with standard augmentation — and the standard advice, applied the standard way, made training substantially slower. Not "didn't help." Slower, by an amount that scaled with how many workers I added.
 
-This post joins a running series on Windows-specific PyTorch behavior — [torch.compile needed version pinning and a MAX_PATH workaround](/posts/torch-compile-on-windows), [the driver silently spills VRAM to system memory](/posts/training-past-gpu-memory-limits) — and this entry has the best effort-to-payoff ratio of the lot: the fix is literally one keyword argument.
+This post joins a running series on Windows-specific PyTorch behavior — [torch.compile needed version pinning and a MAX_PATH workaround](/posts/torch-compile-on-windows/), [the driver silently spills VRAM to system memory](/posts/training-past-gpu-memory-limits/) — and this entry has the best effort-to-payoff ratio of the lot: the fix is literally one keyword argument.
 
 ## The measurement
 

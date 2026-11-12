@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["gpu", "deployment", "performance", "pytorch", "inference"]
 ---
 
-Last week I measured [how CPU inference should divide its cores](/posts/cpu-inference-threading-measured) and found the default policy tuned for the wrong workload. Today, the GPU-side sibling: when requests hit a GPU model server, how many should you group into a batch? Everyone knows the direction of the answer — batching amortizes overhead, more is faster, up to a point. What I wanted was the actual shape: where the free lunch ends, where the knee is, and what batch 1 — the default of every "wrap the model in FastAPI" tutorial — actually costs. Three model sizes (my CIFAR-scale SmallResNet at 32×32, ResNet18 and ResNet50 at 224×224), batches 1 through 256, fp32 and fp16, H2D copy from pinned memory included because real requests arrive over the wire.
+Last week I measured [how CPU inference should divide its cores](/posts/cpu-inference-threading-measured/) and found the default policy tuned for the wrong workload. Today, the GPU-side sibling: when requests hit a GPU model server, how many should you group into a batch? Everyone knows the direction of the answer — batching amortizes overhead, more is faster, up to a point. What I wanted was the actual shape: where the free lunch ends, where the knee is, and what batch 1 — the default of every "wrap the model in FastAPI" tutorial — actually costs. Three model sizes (my CIFAR-scale SmallResNet at 32×32, ResNet18 and ResNet50 at 224×224), batches 1 through 256, fp32 and fp16, H2D copy from pinned memory included because real requests arrive over the wire.
 
 ## The flat zone: your first eight images are free
 
@@ -46,7 +46,7 @@ But the subtler finding is that peak throughput happens at *moderate* batches �
 
 ## The fp16 twist
 
-Mixed precision has a strange opening act: **at batch 1, fp16 was slower than fp32 for all three models** — 21% slower for ResNet18 (2.58 vs 2.13 ms), 27% for ResNet50, 34% for SmallResNet. Below batch 16 there's simply not enough arithmetic to feed the tensor cores, and the fp16 kernel plumbing costs more than the math saves — the same kernel-selection pathology that made [fp16 lose to fp32 under channels_last](/posts/channels-last-memory-format-measured) during training. The crossover sits around batch 16, and beyond it fp16 pays properly: 1.7x peak throughput on all three models, on top of halved memory.
+Mixed precision has a strange opening act: **at batch 1, fp16 was slower than fp32 for all three models** — 21% slower for ResNet18 (2.58 vs 2.13 ms), 27% for ResNet50, 34% for SmallResNet. Below batch 16 there's simply not enough arithmetic to feed the tensor cores, and the fp16 kernel plumbing costs more than the math saves — the same kernel-selection pathology that made [fp16 lose to fp32 under channels_last](/posts/channels-last-memory-format-measured/) during training. The crossover sits around batch 16, and beyond it fp16 pays properly: 1.7x peak throughput on all three models, on top of halved memory.
 
 So precision and batch size aren't independent choices: fp16 at batch 1 is a small pure loss, fp16 at batch 32+ is the biggest single win in these tables. If you're latency-bound at tiny batches, stay in fp32 and spend your effort getting the batch up instead.
 

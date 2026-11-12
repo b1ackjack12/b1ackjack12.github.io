@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "deep-learning", "performance", "windows", "data loading"]
 ---
 
-In [my post on CPU-GPU bottlenecks](/posts/optimizing-pytorch-deep-learning-pipelines) I passed along the standard advice for `DataLoader` tuning: increase `num_workers`, start near your core count, tune downward. It's what the docs suggest and what every tutorial repeats. It's also advice I had never actually benchmarked on the OS I develop on every day.
+In [my post on CPU-GPU bottlenecks](/posts/optimizing-pytorch-deep-learning-pipelines/) I passed along the standard advice for `DataLoader` tuning: increase `num_workers`, start near your core count, tune downward. It's what the docs suggest and what every tutorial repeats. It's also advice I had never actually benchmarked on the OS I develop on every day.
 
 So I benchmarked it. Windows, 16-core CPU, PyTorch 2.6.0, FashionMNIST with two transform pipelines — one trivial (`ToTensor` + `Normalize`) and one deliberately expensive (random rotation, elastic deformation, Gaussian blur, roughly what a real augmentation stack costs). Batches of 256, two full epochs per configuration, tensors moved to GPU as they arrive. The measurement loop is nothing clever:
 
@@ -82,6 +82,6 @@ I also ran the light pipeline with `pin_memory=True`, since the two flags are us
 
 ## What I actually configure now
 
-For Windows machines, my defaults changed after this afternoon of measuring. If the transform stack is trivial — pre-tensorized data like the [windowed IMU datasets I wrote about](/posts/preparing-imu-sensor-data-for-deep-learning), where `__getitem__` is a slice — I start at `num_workers=0` and often stay there. If transforms are genuinely expensive, I use 4–8 workers, never core count. And in every configuration with workers, `persistent_workers=True`, non-negotiable — it was worth more than any worker-count decision in every test I ran. Short experiment scripts that iterate only an epoch or two deserve special suspicion: they pay the spawn tax on every run and never reach the steady state where workers pay off.
+For Windows machines, my defaults changed after this afternoon of measuring. If the transform stack is trivial — pre-tensorized data like the [windowed IMU datasets I wrote about](/posts/preparing-imu-sensor-data-for-deep-learning/), where `__getitem__` is a slice — I start at `num_workers=0` and often stay there. If transforms are genuinely expensive, I use 4–8 workers, never core count. And in every configuration with workers, `persistent_workers=True`, non-negotiable — it was worth more than any worker-count decision in every test I ran. Short experiment scripts that iterate only an epoch or two deserve special suspicion: they pay the spawn tax on every run and never reach the steady state where workers pay off.
 
 None of these numbers transfer directly to your machine — that's rather the point. The benchmark script is thirty lines and runs in a few minutes, which is cheaper than one training run that spends a third of its wall-clock time respawning worker processes without you knowing. I repeated the standard advice for years before spending the afternoon that showed me where it breaks. Measure yours.

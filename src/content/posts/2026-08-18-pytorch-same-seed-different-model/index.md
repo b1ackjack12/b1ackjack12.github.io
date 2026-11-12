@@ -19,13 +19,13 @@ The seeds did their job: initialization, data order, and every explicit random d
 
 Floating-point addition is not associative: `(a + b) + c` and `a + (b + c)` can differ in the last bit. GPU kernels sum gradient contributions across thousands of threads, many using atomic operations whose completion *order depends on the scheduler* — which threads won the race on this particular run, on this particular clock. Same numbers, different addition order, last-bit differences in the gradients. Then SGD amplifies them: a 1e-8 disagreement in a gradient becomes a slightly different weight, which becomes a different activation, and the gap compounds every step. By my run's end, noise that began around the last decimal place a float can represent had grown into 0.237. It's the butterfly effect with a commit hash.
 
-None of this is a PyTorch bug; it's documented behavior, and `cudnn.benchmark` (which I've [previously measured](/posts/tf32-cudnn-benchmark-measured) and left enabled) adds a second layer by autotuning to potentially different — nondeterministic — conv algorithms per run.
+None of this is a PyTorch bug; it's documented behavior, and `cudnn.benchmark` (which I've [previously measured](/posts/tf32-cudnn-benchmark-measured/) and left enabled) adds a second layer by autotuning to potentially different — nondeterministic — conv algorithms per run.
 
 ![Two identical glowing racing lines leaving one starting gate and slowly fanning apart into visibly different paths across a dark circuit board landscape](./figure-1.jpg)
 
 ## Does 0.237 matter? Only when you're asking small questions
 
-For final accuracy, this nondeterminism behaves like one more seed you didn't choose — my [augmentation experiment](/posts/batch-level-gpu-augmentation-accuracy) put ordinary seed-to-seed spread at ±0.3–0.5 points on a small CIFAR setup, and same-seed GPU noise lands in the same statistical bucket. If your effect size dwarfs that, you can ignore this whole post.
+For final accuracy, this nondeterminism behaves like one more seed you didn't choose — my [augmentation experiment](/posts/batch-level-gpu-augmentation-accuracy/) put ordinary seed-to-seed spread at ±0.3–0.5 points on a small CIFAR setup, and same-seed GPU noise lands in the same statistical bucket. If your effect size dwarfs that, you can ignore this whole post.
 
 The cases where it bites are the small questions, which are most of debugging. "Did my refactor change the numerics?" — you can't diff against the pre-refactor run, because *nothing* diffs clean, ever. "Is this 0.4-point improvement my new loss term or luck?" — under nondeterminism you can't even hold the luck constant while you toggle the loss term. A/B comparisons where the honest answer requires the same noise on both sides are exactly where "seeded but nondeterministic" quietly wastes days. I know because the one-point mystery that started this post turned out to be two runs of the *same code*.
 
@@ -49,7 +49,7 @@ The folklore price for all this is "2–3x slower," usually delivered as a reaso
 | fp32 | 17.94 ms | 20.90 ms | +16.5% |
 | bf16 autocast | 12.42 ms | 14.37 ms | +15.6% |
 
-Sixteen percent. Some of that isn't even determinism proper — it includes giving up `cudnn.benchmark`, which [I measured at ~3%](/posts/tf32-cudnn-benchmark-measured) on this model. The 2–3x stories presumably come from specific unlucky ops or older stacks, and maybe your model contains one; that's what the two-minute measurement is for. On mine, bit-exact reproducibility costs about as much as a modestly larger batch.
+Sixteen percent. Some of that isn't even determinism proper — it includes giving up `cudnn.benchmark`, which [I measured at ~3%](/posts/tf32-cudnn-benchmark-measured/) on this model. The 2–3x stories presumably come from specific unlucky ops or older stacks, and maybe your model contains one; that's what the two-minute measurement is for. On mine, bit-exact reproducibility costs about as much as a modestly larger batch.
 
 ## Where the switch sits now
 

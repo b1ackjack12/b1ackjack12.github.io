@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["testing", "deployment", "pytorch", "debugging", "ci"]
 ---
 
-I have now ended two separate posts — [the preprocessing damage table](/posts/image-preprocessing-bugs-ranked) and [the model.eval() autopsy](/posts/forgotten-model-eval-measured) — by recommending a golden-sample test and calling it "twenty lines," without writing the twenty lines. That's the kind of unverified claim [last week taught me to distrust](/posts/batch-512-textbook-fixes-measured), so today I built the thing against the same model and the same injected bugs from the damage-table post, and measured the one design question the twenty lines don't answer for you: **how tight should the tolerance be?**
+I have now ended two separate posts — [the preprocessing damage table](/posts/image-preprocessing-bugs-ranked/) and [the model.eval() autopsy](/posts/forgotten-model-eval-measured/) — by recommending a golden-sample test and calling it "twenty lines," without writing the twenty lines. That's the kind of unverified claim [last week taught me to distrust](/posts/batch-512-textbook-fixes-measured/), so today I built the thing against the same model and the same injected bugs from the damage-table post, and measured the one design question the twenty lines don't answer for you: **how tight should the tolerance be?**
 
 Too loose and bugs slip under it; too tight and every harmless environment difference — new GPU, CPU fallback, a batching change — pages someone at 3 a.m. for nothing. The right answer isn't a philosophy, it's two measurements: the noise floor of *legitimate* variation, and the signal size of *actual* bugs. If there's a gap between them, the test works and the tolerance goes in the gap.
 
@@ -46,7 +46,7 @@ First, everything that is *allowed* to change, and what it did to the logits (ma
 | channels_last memory format | 2.2e-03 | same |
 | autocast fp16 | 6.1e-03 | same |
 
-A side-fact worth pausing on: eval-mode inference on my GPU is *bit-exact* across reruns and checkpoint reloads, even with `cudnn.benchmark` on. The [non-determinism that plagued training](/posts/pytorch-same-seed-different-model) comes overwhelmingly from backward-pass atomics; a lone forward pass, same shapes and same device, replays identically. Drift only appears when the *kernels themselves* legitimately change — different batch size selects different convolution algorithms, CPU uses different math entirely, fp16 rounds — and all of it stays at or under **6e-3**. That's the floor.
+A side-fact worth pausing on: eval-mode inference on my GPU is *bit-exact* across reruns and checkpoint reloads, even with `cudnn.benchmark` on. The [non-determinism that plagued training](/posts/pytorch-same-seed-different-model/) comes overwhelmingly from backward-pass atomics; a lone forward pass, same shapes and same device, replays identically. Drift only appears when the *kernels themselves* legitimately change — different batch size selects different convolution algorithms, CPU uses different math entirely, fp16 rounds — and all of it stays at or under **6e-3**. That's the floor.
 
 ## Measuring the bug signals
 

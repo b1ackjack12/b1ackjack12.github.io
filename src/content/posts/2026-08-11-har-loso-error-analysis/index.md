@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["imu", "sensors", "deep-learning", "evaluation", "time-series"]
 ---
 
-[Yesterday's post](/posts/imu-har-subject-vs-random-split) ended with a promise I half-expected to regret: that full leave-one-subject-out — train 30 models, each tested on one person the model has never seen — is the proper instrument, and cheap enough to actually run. It was cheap: a few minutes of GPU time for the full sweep on the small 1D CNN. This post is what the instrument showed, because the aggregate numbers from yesterday turned out to be hiding something with a very specific shape.
+[Yesterday's post](/posts/imu-har-subject-vs-random-split/) ended with a promise I half-expected to regret: that full leave-one-subject-out — train 30 models, each tested on one person the model has never seen — is the proper instrument, and cheap enough to actually run. It was cheap: a few minutes of GPU time for the full sweep on the small 1D CNN. This post is what the instrument showed, because the aggregate numbers from yesterday turned out to be hiding something with a very specific shape.
 
 Setup, briefly: UCI HAR again, 30 subjects, six activities from waist-worn smartphone accelerometer and gyroscope, the same three-layer 1D CNN. For each subject, train on the other 29, test on them alone. Normalization uses training-set statistics only, as always.
 
@@ -23,7 +23,7 @@ Pooling the confusion matrix across all 30 held-out subjects, out of 567 total m
 
 So "the model is 94% accurate" was never the right sentence. The truthful sentence is: **the model is nearly flawless at everything except telling sitting from standing, and for certain bodies it can barely tell them apart at all.** The worst subjects aren't people the model generally misreads — they're people whose sitting posture, as seen by a waist-mounted IMU, looks like other people's standing.
 
-The mechanism is almost embarrassingly physical. Sitting and standing are both static postures; the accelerometer signal is essentially the gravity vector filtered through wherever the device rests on your body. Distinguishing them means distinguishing hip/torso angle — which varies with how you sit, your build, and how the phone was mounted. There's no motion signature to save you, the way there is for walking or stairs. The IMU preprocessing post [talked about gravity as a design decision](/posts/preparing-imu-sensor-data-for-deep-learning); here it is deciding 86% of the error budget of a whole benchmark.
+The mechanism is almost embarrassingly physical. Sitting and standing are both static postures; the accelerometer signal is essentially the gravity vector filtered through wherever the device rests on your body. Distinguishing them means distinguishing hip/torso angle — which varies with how you sit, your build, and how the phone was mounted. There's no motion signature to save you, the way there is for walking or stairs. The IMU preprocessing post [talked about gravity as a design decision](/posts/preparing-imu-sensor-data-for-deep-learning/); here it is deciding 86% of the error budget of a whole benchmark.
 
 ![A robot inspector confidently sorting a parade of moving figures, then squinting helplessly at two nearly identical mannequins, one seated and one standing](./figure-1.jpg)
 

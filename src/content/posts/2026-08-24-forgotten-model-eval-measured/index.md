@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "deployment", "debugging", "batchnorm", "deep-learning"]
 ---
 
-[Last week's post](/posts/image-preprocessing-bugs-ranked) ranked the damage from preprocessing bugs — the glue code *in front of* the model. Today is the other classic inference mistake, the one inside the serving code itself: forgetting `model.eval()`, and its sibling, forgetting `torch.no_grad()`. Every PyTorch tutorial recites these two lines; almost none of them show what actually happens when you omit them. Having a trained CIFAR-10 model (89.51% in correct eval mode) still warm from last week, I measured it.
+[Last week's post](/posts/image-preprocessing-bugs-ranked/) ranked the damage from preprocessing bugs — the glue code *in front of* the model. Today is the other classic inference mistake, the one inside the serving code itself: forgetting `model.eval()`, and its sibling, forgetting `torch.no_grad()`. Every PyTorch tutorial recites these two lines; almost none of them show what actually happens when you omit them. Having a trained CIFAR-10 model (89.51% in correct eval mode) still warm from last week, I measured it.
 
 The punchline is worth stating up front, because it's the mechanism that makes this bug genuinely nasty rather than merely embarrassing: **the damage is a function of your serving batch size.** The same forgotten line costs you everything or nearly nothing depending on how many requests you happen to bundle together — and the direction of that dependence is precisely backwards from how software gets tested.
 
@@ -47,6 +47,6 @@ For completeness I also trained a variant with dropout (p=0.3) and served it in 
 
 ## The two-line defense for the two-line bug
 
-Everything in this post is preventable with asserts that cost nothing: at the top of the serving entrypoint, `assert not model.training`, and construct outputs under `inference_mode`. And the [golden-sample test from last week](/posts/image-preprocessing-bugs-ranked) catches this whole class too, with one amendment I'd now consider mandatory: **include a batch-size-1 golden sample.** A batch-256 golden check would have signed off on the 89.09% impostor; the single-image check fails it instantly and unmissably, at 10% accuracy.
+Everything in this post is preventable with asserts that cost nothing: at the top of the serving entrypoint, `assert not model.training`, and construct outputs under `inference_mode`. And the [golden-sample test from last week](/posts/image-preprocessing-bugs-ranked/) catches this whole class too, with one amendment I'd now consider mandatory: **include a batch-size-1 golden sample.** A batch-256 golden check would have signed off on the 89.09% impostor; the single-image check fails it instantly and unmissably, at 10% accuracy.
 
 Ranked against the whole deployment series, forgotten `eval()` at batch 1 is now the single most destructive mistake I've measured — worse than any preprocessing bug, seventy-nine points below baseline, from one absent line that every tutorial warns about and every codebase eventually omits anyway. The warnings clearly aren't the bottleneck. The tests are.

@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["onnx", "deployment", "performance", "cpu", "edge computing"]
 ---
 
-When I [quantized the HAR model](/posts/har-model-to-int8-onnx) and reported 0.033 ms per inference, one detail went unexamined: onnxruntime's default behavior is to parallelize each single inference across *every core in the machine*. My desktop has 8 physical cores (16 logical), so that 0.033 ms was sixteen threads' worth of coordination for a 103 KB model. Whether that's sensible is a real question with money attached — an inference server's thread configuration decides how many requests a box actually serves, and an edge device sharing its CPU with the rest of the firmware cares even more. So: latency versus `intra_op_num_threads`, measured for a small, a smaller, and a big model, plus one serving experiment that changed how I'd configure this in production.
+When I [quantized the HAR model](/posts/har-model-to-int8-onnx/) and reported 0.033 ms per inference, one detail went unexamined: onnxruntime's default behavior is to parallelize each single inference across *every core in the machine*. My desktop has 8 physical cores (16 logical), so that 0.033 ms was sixteen threads' worth of coordination for a 103 KB model. Whether that's sensible is a real question with money attached — an inference server's thread configuration decides how many requests a box actually serves, and an edge device sharing its CPU with the rest of the firmware cares even more. So: latency versus `intra_op_num_threads`, measured for a small, a smaller, and a big model, plus one serving experiment that changed how I'd configure this in production.
 
 ## Latency vs. thread count, three model sizes
 

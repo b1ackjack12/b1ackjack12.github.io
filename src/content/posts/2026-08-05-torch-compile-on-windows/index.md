@@ -9,14 +9,14 @@ thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "torch.compile", "windows", "performance", "deep-learning"]
 ---
 
-Over the last week I've walked a ResNet18 training step down from 21.4 ms to 9.1 ms — [TF32 and cuDNN flags](/posts/tf32-cudnn-benchmark-measured), [autocast](/posts/mixed-precision-autocast-in-practice), [channels_last](/posts/channels-last-memory-format-measured). The elephant at the end of that checklist is `torch.compile`, PyTorch's whole-graph compiler and the headline feature of the 2.x era. And for me it has always ended the same way, because I develop on Windows:
+Over the last week I've walked a ResNet18 training step down from 21.4 ms to 9.1 ms — [TF32 and cuDNN flags](/posts/tf32-cudnn-benchmark-measured/), [autocast](/posts/mixed-precision-autocast-in-practice/), [channels_last](/posts/channels-last-memory-format-measured/). The elephant at the end of that checklist is `torch.compile`, PyTorch's whole-graph compiler and the headline feature of the 2.x era. And for me it has always ended the same way, because I develop on Windows:
 
 ```text
 BackendCompilerFailed: backend='inductor' raised:
 RuntimeError: Cannot find a working triton installation.
 ```
 
-Inductor, the default compile backend, generates GPU kernels through Triton — and Triton ships no official Windows wheels. This isn't a bug; it's the documented state of the world, and it's why my [framework comparison post](/posts/pytorch-vs-jax-2026-framework-guide) waved the feature off entirely. But "unsupported" and "impossible" aren't the same claim, and I'd never actually tested where the line is. This post is the test.
+Inductor, the default compile backend, generates GPU kernels through Triton — and Triton ships no official Windows wheels. This isn't a bug; it's the documented state of the world, and it's why my [framework comparison post](/posts/pytorch-vs-jax-2026-framework-guide/) waved the feature off entirely. But "unsupported" and "impossible" aren't the same claim, and I'd never actually tested where the line is. This post is the test.
 
 ## The backends that work out of the box, and why they don't help
 

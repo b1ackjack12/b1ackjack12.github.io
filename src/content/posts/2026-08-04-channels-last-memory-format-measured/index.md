@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["pytorch", "performance", "gpu", "mixed-precision", "deep-learning"]
 ---
 
-The performance checklist I've been working through on this blog — [cuDNN and TF32 flags](/posts/tf32-cudnn-benchmark-measured), then [autocast](/posts/mixed-precision-autocast-in-practice) — has one classic line left on it:
+The performance checklist I've been working through on this blog — [cuDNN and TF32 flags](/posts/tf32-cudnn-benchmark-measured/), then [autocast](/posts/mixed-precision-autocast-in-practice/) — has one classic line left on it:
 
 ```python
 model = model.to(memory_format=torch.channels_last)

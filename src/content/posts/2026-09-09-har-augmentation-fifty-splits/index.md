@@ -9,7 +9,7 @@ thumbnail: "./thumbnail.jpg"
 tags: ["imu", "sensors", "augmentation", "statistics", "activity recognition"]
 ---
 
-[Last week's augmentation post](/posts/imu-augmentation-measured) ended with a hedge I wrote deliberately: scaling augmentation seemed to lift the worst held-out subject by two points, but the gain leaned on one lucky split, so I filed it as "a hypothesis worth fifty splits, not a result." This blog has a rule about sentences like that now — [unverified claims get measured](/posts/batch-512-textbook-fixes-measured), especially my own. HAR training runs take three seconds. Fifty random subject splits, four configurations, 200 training runs, eight minutes of GPU. There was never going to be an excuse.
+[Last week's augmentation post](/posts/imu-augmentation-measured/) ended with a hedge I wrote deliberately: scaling augmentation seemed to lift the worst held-out subject by two points, but the gain leaned on one lucky split, so I filed it as "a hypothesis worth fifty splits, not a result." This blog has a rule about sentences like that now — [unverified claims get measured](/posts/batch-512-textbook-fixes-measured/), especially my own. HAR training runs take three seconds. Fifty random subject splits, four configurations, 200 training runs, eight minutes of GPU. There was never going to be an excuse.
 
 ## The fifty-split verdict
 
@@ -33,7 +33,7 @@ And then the surprise. **Rotation, which five splits filed under "null," is the 
 
 ## Small samples don't just miss effects — they misrank them
 
-The uncomfortable takeaway isn't that five splits lacked power; I knew that and said so. It's that the five-split experiment produced a *plausible wrong answer*: it pointed at scaling as the promising augmentation and rotation as noise, when the truth is the reverse. If I'd had slightly less caution — or slightly more deadline — the production recipe would have shipped with the second-best augmentation and without the best one. Underpowered experiments don't return "insufficient data"; they return confident-looking rankings drawn from a lottery. That's a sharper version of what [the seed-noise post](/posts/seed-noise-vs-real-improvements) measured for single comparisons.
+The uncomfortable takeaway isn't that five splits lacked power; I knew that and said so. It's that the five-split experiment produced a *plausible wrong answer*: it pointed at scaling as the promising augmentation and rotation as noise, when the truth is the reverse. If I'd had slightly less caution — or slightly more deadline — the production recipe would have shipped with the second-best augmentation and without the best one. Underpowered experiments don't return "insufficient data"; they return confident-looking rankings drawn from a lottery. That's a sharper version of what [the seed-noise post](/posts/seed-noise-vs-real-improvements/) measured for single comparisons.
 
 One more small embarrassment worth recording: the five-split baseline read 94.45%; the fifty-split baseline is 92.67%. The first five seeds happened to draw easy test subjects. Even the *headline number* of last week's post was nearly two points of luck.
 

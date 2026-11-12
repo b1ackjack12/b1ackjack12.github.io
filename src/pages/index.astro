@@ -23,7 +23,7 @@ const posts = (await getCollection('posts')).filter((p) => !p.data.draft).sort((
                 {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               </time>
               <div class="text-right">
-                <a href={`${base}/posts/${post.data.slug ?? post.id}`} class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 no-underline">Read More</a>
+                <a href={`${base}/posts/${post.data.slug ?? post.id}/`} class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 no-underline">Read More</a>
               </div>
             </div>
           </div>
