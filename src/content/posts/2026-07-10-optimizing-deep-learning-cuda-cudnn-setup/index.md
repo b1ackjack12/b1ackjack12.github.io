@@ -1,6 +1,8 @@
 ---
 title: "A Sane CUDA Toolkit and cuDNN Setup, Step by Step"
 description: "The CUDA and cuDNN installation workflow I settled on after too many broken environments: version matching, paths, and verification that actually catches mistakes."
+seoTitle: "CUDA Toolkit and cuDNN Setup for PyTorch, Step by Step"
+seoDescription: "A CUDA and cuDNN install workflow that survives: version matching, PATH setup, and verification steps that actually catch mistakes."
 slug: "optimizing-deep-learning-cuda-cudnn-setup"
 date: 2026-07-10
 author: "B1ack"

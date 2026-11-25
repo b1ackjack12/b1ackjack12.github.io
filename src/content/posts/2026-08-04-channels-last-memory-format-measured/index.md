@@ -1,6 +1,9 @@
 ---
 title: "channels_last: 1.4x Faster in bf16, 4x Slower in fp16, on the Same GPU"
 description: "The memory-format one-liner behaved exactly as documented with bfloat16 and catastrophically backfired with float16 on my stack. Timings, the forward/backward split that localizes the problem, and the layout gotchas nobody warns you about."
+seoTitle: "channels_last in PyTorch: Faster in bf16, 4x Slower in fp16"
+seoDescription: "The memory-format one-liner worked as documented with bfloat16 and backfired with float16 on the same GPU. Timings, forward/backward split, gotchas."
+series: "pytorch-performance"
 slug: "channels-last-memory-format-measured"
 date: 2026-08-04
 author: "B1ack"

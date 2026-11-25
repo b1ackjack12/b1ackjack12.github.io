@@ -1,6 +1,8 @@
 ---
 title: "Token Efficiency in Practice: Getting More from Every LLM Call"
 description: "What building against strict API quotas taught me about prompt design, RAG context control, and structured outputs — with actual token counts instead of hand-waving."
+seoTitle: "LLM Token Efficiency: Prompt, RAG and Output Tactics"
+seoDescription: "What strict API quotas taught me about prompt design, RAG context control and structured outputs, with real token counts."
 slug: "optimizing-llm-token-efficiency"
 date: 2026-07-13
 author: "B1ack"

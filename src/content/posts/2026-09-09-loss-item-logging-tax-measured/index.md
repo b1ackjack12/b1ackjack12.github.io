@@ -1,6 +1,9 @@
 ---
 title: "I Went Hunting for the Famous loss.item() Tax and Came Back With Pocket Change"
 description: "PyTorch folklore says calling .item() every step forces a GPU sync and quietly throttles training. I measured it across five regimes — small model, big model, sub-millisecond steps, torch.compile, CUDA graphs — trying to make the tax appear. The worst I could produce was 7%, and the mechanism explains why the horror stories don't reproduce on modern hardware."
+seoTitle: "The loss.item() GPU Sync Tax, Measured in Five Regimes"
+seoDescription: "Calling .item() every step across small and big models, sub-ms steps, torch.compile and CUDA graphs. Worst case 7%, and why folklore says more."
+series: "pytorch-performance"
 slug: "loss-item-logging-tax-measured"
 date: 2026-09-09
 author: "B1ack"

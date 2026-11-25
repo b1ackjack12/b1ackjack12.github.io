@@ -1,6 +1,9 @@
 ---
 title: "One Good Question Repriced TTA: Ten Views Now Cost 8%"
 description: "A good question came up about the test-time augmentation post, covering something my benchmark hadn't: what happens if you batch the flipped copies together with the originals instead of running a second pass? The answer turned into a full repricing. Sequential TTA pays sticker price at every batch size — 2x for a flip, 10x for the full view set, always. Concatenated TTA rides the GPU's fixed-overhead floor: at serving-realistic batch sizes the flip is free to 1.4x, and at batch 1 the entire ten-view ensemble — the biggest accuracy gain this blog has measured — costs eight percent."
+seoTitle: "TTA Serving Cost: Ten Views for 8% With Concatenated Batches"
+seoDescription: "Sequential TTA pays 2x for a flip and 10x for ten views at every batch size. Concatenated TTA rides the GPU overhead floor: ten views cost 8%."
+series: "deployment"
 slug: "tta-serving-price-measured"
 date: 2026-10-22
 author: "B1ack"

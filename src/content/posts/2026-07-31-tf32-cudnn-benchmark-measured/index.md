@@ -1,6 +1,9 @@
 ---
 title: "The 'Free Speedup' Flags, Measured: One Did Almost Nothing on My GPU"
 description: "Every PyTorch performance checklist says to enable cudnn.benchmark and TF32. I timed both on an RTX 4080 — the famous flag bought 3%, the flag nobody mentions was already on, and TF32's error is 340x larger."
+seoTitle: "cudnn.benchmark and TF32 Measured on an RTX 4080"
+seoDescription: "The famous flag bought 3%, the flag nobody mentions was already on, and TF32's numerical error is 340x larger. Timed on an RTX 4080."
+series: "pytorch-performance"
 slug: "tf32-cudnn-benchmark-measured"
 date: 2026-07-31
 author: "B1ack"

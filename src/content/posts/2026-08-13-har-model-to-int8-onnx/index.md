@@ -1,6 +1,9 @@
 ---
 title: "From Sensor Windows to a 100 KB Model: Deploying the HAR CNN"
 description: "Part three of the activity recognition series: exporting the 1D CNN to ONNX, quantizing it to int8, and checking whether every trap from my earlier quantization post fires again on a completely different architecture. (It does, on schedule.)"
+seoTitle: "Deploying a HAR CNN: ONNX Export and int8 Quantization"
+seoDescription: "Exporting the 1D activity-recognition CNN to ONNX, quantizing to int8 and checking which quantization traps fire again on a 100 KB model."
+series: "imu-har"
 slug: "har-model-to-int8-onnx"
 date: 2026-08-13
 author: "B1ack"

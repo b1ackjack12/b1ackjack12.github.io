@@ -1,6 +1,9 @@
 ---
 title: "I Put Yesterday's Mechanism on Trial. The CutMix Model Does See the Patch — and Still Hedges Everywhere"
 description: "Yesterday I explained CutMix's confidence drift with a story: given budget, the model learns to see the foreign patch, follows its soft label per example, and stops hedging on clean images that have no patch. Today I tested the story directly by feeding every trained model a fixed patched copy of the test set, one random box per image, and measuring how closely delivered confidence tracks the confidence the label would have requested. Half the story held: slope 0.83 → 0.95 and obedience error 25 → 18.5 points from 10 to 40 epochs, with the model identifying the dominant class under occlusion 7 points more often. Half failed: the model still delivers about 10 points under the request at every patch size, and its clean-image confidence sits exactly that far under the baseline's. The hedge didn't become targeted. It shrank uniformly."
+seoTitle: "Does the CutMix Model See the Patch? A Patched-Input Probe"
+seoDescription: "Every CutMix checkpoint fed a fixed patched test set: obedience error falls 25 → 18.5 from 10 to 40 epochs, but a uniform 10-point hedge stays."
+series: "cutmix-tax"
 slug: "cutmix-patch-obedience-probe"
 date: 2026-11-10
 author: "B1ack"

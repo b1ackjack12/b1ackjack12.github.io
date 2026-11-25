@@ -1,6 +1,9 @@
 ---
 title: "The Most Recommended IMU Augmentation Made My Model Worse in All Five Splits"
 description: "Every sensor-data tutorial hands you the same augmentation menu: add noise, scale, rotate. I measured all three on human activity recognition under an honest subject split. Two did nothing detectable. The most popular one — Gaussian jitter — hurt in five out of five splits, and the reason says something about how badly image intuitions transfer to sensors."
+seoTitle: "IMU Augmentation Measured: Jitter Hurt in Every Split"
+seoDescription: "Noise, scaling and rotation measured on human activity recognition under a subject split. Gaussian jitter hurt in five of five splits."
+series: "imu-har"
 slug: "imu-augmentation-measured"
 date: 2026-09-03
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "torch.compile on Windows Isn't Supposed to Work. Here's What I Got Anyway"
 description: "PyTorch's compiler officially has no Windows GPU story — no Triton wheels, dead on arrival. With a community wheel, a version pin, and a MAX_PATH workaround, I got it running and timed what it's actually worth."
+seoTitle: "torch.compile on Windows GPU: Getting It to Run"
+seoDescription: "No official Triton wheels for Windows. With a community wheel, a version pin and a MAX_PATH workaround, torch.compile ran, and I timed what it is worth."
+series: "pytorch-performance"
 slug: "torch-compile-on-windows"
 date: 2026-08-05
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "EMA's Popular Default Lost Me 3 Points, and the Control Group Dropped a Bombshell"
 description: "Weight averaging is sold as free accuracy, so I measured it with the cleanest experiment this blog has run: two EMA copies maintained inside the same training run, compared against the raw weights they shadow — seed noise cancels exactly. The tutorial default decay lost 3 points in 15 out of 15 runs. The tuned one earned +0.08. And the baseline column quietly rewrote a month of this blog's statistics."
+seoTitle: "EMA Weights Measured: The Default Decay Lost 3 Points"
+seoDescription: "Two EMA copies inside the same run against the raw weights, seed noise cancelled. Decay 0.999 lost 3 points in 15 of 15 runs; tuned earned +0.08."
+series: "training-knobs"
 slug: "ema-weights-measured"
 date: 2026-09-10
 author: "B1ack"

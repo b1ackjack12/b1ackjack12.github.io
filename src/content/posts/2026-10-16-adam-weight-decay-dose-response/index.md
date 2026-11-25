@@ -1,6 +1,9 @@
 ---
 title: "Weight Decay 0.05: Catastrophe in Adam, Optimum in AdamW"
 description: "The dose-response series reaches the knob I've been inheriting since September: weight_decay=5e-4, copied from SGD folklore into Adam without a second look. Nine arms and forty-five runs later, the two optimizers' curves turn out to be the same shape shifted two orders of magnitude apart — the dose that wrecks Adam for 24 points is AdamW's best setting, my September screening picked AdamW's dose off one seed and got it wrong, and 'the same weight_decay' between the two optimizers is revealed as two different algorithms wearing one config key."
+seoTitle: "Adam vs AdamW Weight Decay Dose-Response, 45 Runs"
+seoDescription: "The same weight_decay is two different algorithms: 0.05 wrecks Adam by 24 points and is AdamW's optimum. Nine arms, forty-five runs."
+series: "training-knobs"
 slug: "adam-weight-decay-dose-response"
 date: 2026-10-16
 author: "B1ack"

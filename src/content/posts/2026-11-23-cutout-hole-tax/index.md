@@ -1,6 +1,9 @@
 ---
 title: "The Hole Pays a Different Bill. Cutout at 40 Epochs Owns a Quarter of CutMix's Confidence Tax, Spends It on Honesty, and Still Loses the Accuracy"
 description: "Three weeks ago the Cutout control split CutMix into its hole and its soft label at 10 epochs and found the label was paying the hole's damage back. The dose arc since then has read CutMix's ten-point confidence tax as pass-through of what the soft labels withhold, which predicts that a hard-label hole carries no tax at all. Five Cutout models at 40 epochs, probed on the same patched test set as the rest of the arc plus a zero-filled hole probe on identical boxes: the hole does take 2.45 points of clean confidence, a quarter of CutMix's gap, but it takes them from an over-confident baseline and lands at the best native ECE in the arc. The other three quarters need the label. Cutout also buys a fraction of the occlusion skill without ever seeing a foreign pixel, and on actual holes it is the only model of the three that stays both right and sure. What it does not buy, even at four times the budget, is the accuracy."
+seoTitle: "Cutout at 40 Epochs: A Quarter of CutMix's Confidence Tax"
+seoDescription: "Five Cutout models probed on patched and zero-filled holes: the hole takes 2.45 points of clean confidence, lands at ECE 1.99, and still loses accuracy."
+series: "cutmix-tax"
 slug: "cutout-hole-tax"
 date: 2026-11-23
 author: "B1ack"

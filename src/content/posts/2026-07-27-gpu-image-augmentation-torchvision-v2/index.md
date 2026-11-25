@@ -1,6 +1,9 @@
 ---
 title: "I Moved Image Augmentation to the GPU: 13x Faster, With One Catch"
 description: "torchvision transforms v2 runs batched augmentation on the GPU and crushed my best CPU worker setup — but every image in the batch silently gets the same random crop, jitter, and blur. Measured, as usual."
+seoTitle: "GPU Image Augmentation With torchvision v2: 13x Faster"
+seoDescription: "Batched GPU augmentation beat the best CPU worker setup 13x, but every image in a batch silently gets the same random crop, jitter and blur."
+series: "pytorch-performance"
 slug: "gpu-image-augmentation-torchvision-v2"
 date: 2026-07-27
 author: "B1ack"

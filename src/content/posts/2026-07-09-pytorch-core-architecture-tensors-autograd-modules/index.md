@@ -1,6 +1,8 @@
 ---
 title: "PyTorch from the Ground Up: Tensors, Autograd, and Modules"
 description: "How PyTorch’s three core layers — tensors, autograd, and nn.Module — fit together, plus the habits that have saved me the most debugging time."
+seoTitle: "PyTorch Tensors, Autograd and nn.Module Explained"
+seoDescription: "How PyTorch's tensors, autograd and nn.Module fit together, with the debugging habits that save the most time."
 slug: "pytorch-core-architecture-tensors-autograd-modules"
 date: 2026-07-09
 author: "B1ack"

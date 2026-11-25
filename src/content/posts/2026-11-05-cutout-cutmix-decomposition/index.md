@@ -1,6 +1,9 @@
 ---
 title: "I Put CutMix's Soft Label on Trial. The Hole Did It"
 description: "Last week CutMix cost 3.08 points at my 10-epoch budget and I wanted to know which of its two ingredients to blame: the occluded patch or the softened label. So I ran the control that separates them — the exact same box sampler, the same erased area, but a zero-filled hole and an untouched one-hot label. The verdict came back inverted: occlusion alone costs 4.40, which means the soft label wasn't doing damage. It was paying some of it back. And the calibration panel delivered the obedience theory's mirror-image prediction on schedule."
+seoTitle: "Cutout vs CutMix: Is It the Hole or the Soft Label?"
+seoDescription: "Same box sampler, zero-filled hole, one-hot label: occlusion alone costs 4.40 points at 10 epochs, so CutMix's soft label was paying damage back."
+series: "cutmix-tax"
 slug: "cutout-cutmix-decomposition"
 date: 2026-11-05
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "Does Batch-Level GPU Augmentation Hurt Accuracy? I Trained 25 Models to Find Out"
 description: "My last post found that batched GPU transforms give every image in the batch the same random parameters. This one measures what that actually costs on CIFAR-10 — and documents how five seeds nearly fooled me."
+seoTitle: "Does Batch-Level GPU Augmentation Hurt Accuracy? 25 Models"
+seoDescription: "What shared per-batch augmentation parameters cost on CIFAR-10, measured over 25 trained models, and how five seeds nearly gave the wrong answer."
+series: "pytorch-performance"
 slug: "batch-level-gpu-augmentation-accuracy"
 date: 2026-07-29
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "Early Stopping Went 0 for 15 Against 'Just Take the Last Epoch'"
 description: "Best-validation checkpoint selection is such standard practice that I'd never asked whether it helps. Fifteen seeds with per-epoch validation and test curves: the last epoch was the true best epoch in every single run, the validation set's job was reduced to occasionally picking wrong, and the 5,000 images I reserved for it cost more accuracy than any selection could ever recover."
+seoTitle: "Early Stopping vs Last Epoch: 0 for 15 Across Seeds"
+seoDescription: "Fifteen seeds with per-epoch validation and test curves: the last epoch was the best in every run, and the held-out set cost more than it saved."
+series: "training-knobs"
 slug: "early-stopping-checkpoint-selection-measured"
 date: 2026-09-15
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "When the Gyroscope Dies, My Activity Model Loses 3 Points. The Gyro Was Only Worth 1"
 description: "Sensors fail in deployed wearables — gyros get power-gated to save battery, drivers hang, cheaper SKUs ship without them. Fifty paired splits of sensor-failure accounting: an unprepared model loses 2.8 points when the gyro flatlines, yet a model trained without gyros entirely only trails by 0.9 — meaning two-thirds of the crash is distribution shock, not missing information. Channel-dropout training buys the difference back for a 0.3-point premium."
+seoTitle: "When the Gyroscope Fails: Channel Dropout for IMU Models"
+seoDescription: "An unprepared HAR model loses 2.8 points when the gyro flatlines; a gyro-free model trails by only 0.9. Channel-dropout training buys back the gap."
+series: "imu-har"
 slug: "har-gyro-failure-insurance"
 date: 2026-10-06
 author: "B1ack"

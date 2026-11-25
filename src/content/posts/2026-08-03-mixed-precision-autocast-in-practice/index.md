@@ -1,6 +1,9 @@
 ---
 title: "Autocast in Practice: 1.6x Faster, 40% Less Memory, and the 0.35% of Gradients That Vanish"
 description: "After TF32, the next rung down the precision ladder is fp16/bf16 autocast. I timed it on a ResNet18 training step, then counted exactly how many real gradients underflow to zero — the number that explains why GradScaler exists."
+seoTitle: "PyTorch Autocast Measured: 1.6x Faster, 40% Less Memory"
+seoDescription: "fp16 and bf16 autocast timed on a ResNet18 training step, plus a count of how many real gradients underflow to zero: the reason GradScaler exists."
+series: "pytorch-performance"
 slug: "mixed-precision-autocast-in-practice"
 date: 2026-08-03
 author: "B1ack"

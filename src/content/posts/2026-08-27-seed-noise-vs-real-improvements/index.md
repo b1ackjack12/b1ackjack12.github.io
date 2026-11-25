@@ -1,6 +1,9 @@
 ---
 title: "Your +0.3% Improvement Is Probably a Coin Flip"
 description: "I trained the identical model 15 times, changing only the random seed, and got accuracies spanning 4.6 percentage points. Then I added a real improvement worth +0.35%p and tried to detect it: a single-seed comparison picked the right winner 59% of the time. Thirty training runs later, some uncomfortable arithmetic about every ablation table I've ever written."
+seoTitle: "Seed Noise vs Real Improvements: Is +0.3% a Coin Flip?"
+seoDescription: "15 runs with only the seed changed spanned 4.6 points. A single-seed comparison picked a real +0.35 improvement 59% of the time."
+series: "training-knobs"
 slug: "seed-noise-vs-real-improvements"
 date: 2026-08-27
 author: "B1ack"

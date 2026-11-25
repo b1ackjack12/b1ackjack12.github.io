@@ -1,6 +1,9 @@
 ---
 title: "I Warned Against Big IMU Rotations. The Sweep Says I Had It Backwards"
 description: "Last week's augmentation post capped rotation at ±15° with a confident physical argument: rotate further and you teach the model that lying down looks like standing. Today's 300-run dose-response sweep says the cap was wrong — 30° beats 15° on every metric, and even ±90° never hurts. The physical argument was plausible, stated with authority, and untested. Familiar story."
+seoTitle: "IMU Rotation Augmentation Angle Sweep: 30° Beats 15°"
+seoDescription: "A 300-run dose-response sweep of rotation augmentation for activity recognition: 30 degrees beats 15 on every metric and 90 never hurts."
+series: "imu-har"
 slug: "imu-rotation-angle-sweep"
 date: 2026-09-15
 author: "B1ack"

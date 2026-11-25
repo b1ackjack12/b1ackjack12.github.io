@@ -1,6 +1,9 @@
 ---
 title: "I Slowed My IMU's Clock 4x and Accuracy Went Up"
 description: "The window-length experiment showed my activity model falls apart when I shorten its 2.56-second view of the world. Today's follow-up asks the orthogonal question: keep the full window, but sample it with a lazier clock — 25, 12.5, 6.25 Hz instead of 50. Fifty paired subject splits later, half the data rate is free, a quarter of it is actually better than the original (t = 4.3, and the hardest subjects gain the most), and the only arm that significantly loses is the one that broke the signal-processing rules. The sensor was oversampled all along."
+seoTitle: "IMU Sampling Rate Measured: 12.5 Hz Beats 50 Hz"
+seoDescription: "Resampling HAR windows to 25, 12.5 and 6.25 Hz over fifty paired subject splits: half the rate is free and a quarter is better (t = 4.3)."
+series: "imu-har"
 slug: "imu-sampling-rate-measured"
 date: 2026-10-16
 author: "B1ack"

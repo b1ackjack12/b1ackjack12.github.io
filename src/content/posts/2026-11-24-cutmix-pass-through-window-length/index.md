@@ -1,6 +1,9 @@
 ---
 title: "Shrink the Window, Grow the Leak. CutMix's Confidence Pass-Through Nearly Doubles as the IMU Window Drops From 2.56 to 0.64 Seconds"
 description: "Yesterday's architecture sweep ruled out the receptive field and the pooling as the reason CutMix leaks a third as much confidence tax onto clean IMU windows as it does onto CIFAR images, and left the data as the suspect. This changes the data instead: same model, same fifty paired subject splits, windows centre-cropped from 128 samples to 96, 64 and 32, CutMix at half and full dose on each. The pass-through rate climbs monotonically as the window shrinks, 13 / 16 / 19 / 25 percent, with the shortest window different from the longest in fifty of fifty splits, while the baseline loses under a point of accuracy and the labels' request stays fixed. The rate tracks how much of a window the model can spare, and that points at a single property the image model has in abundance: nothing in a 32-pixel image is redundant."
+seoTitle: "CutMix Pass-Through vs IMU Window Length: 13% to 25%"
+seoDescription: "Windows center-cropped from 128 to 32 samples, CutMix at half and full dose, fifty paired splits: pass-through climbs 13 / 16 / 19 / 25 percent."
+series: "cutmix-tax"
 slug: "cutmix-pass-through-window-length"
 date: 2026-11-24
 author: "B1ack"

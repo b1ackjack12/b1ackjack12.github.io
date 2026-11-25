@@ -1,6 +1,9 @@
 ---
 title: "num_workers on Windows: I Benchmarked the Advice I Gave You Last Week"
 description: "Every PyTorch tutorial says to raise num_workers. I measured it on a 16-core Windows machine: workers made light pipelines slower, and one overlooked flag mattered more than any worker count."
+seoTitle: "PyTorch DataLoader num_workers on Windows, Benchmarked"
+seoDescription: "num_workers measured on a 16-core Windows machine: workers made light pipelines slower, and one overlooked flag mattered more than any count."
+series: "pytorch-performance"
 slug: "pytorch-dataloader-num-workers-windows"
 date: 2026-07-24
 author: "B1ack"

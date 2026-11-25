@@ -1,6 +1,9 @@
 ---
 title: "I Set Every Seed and Trained Twice. The Models Diverged at Step 1"
 description: "torch.manual_seed is not reproducibility. I measured how fast two identically-seeded runs drift apart on GPU, why it happens, and what bit-exact determinism actually costs — 16%, not the 2x folklore claims."
+seoTitle: "Same Seed, Different Model: PyTorch GPU Nondeterminism"
+seoDescription: "torch.manual_seed is not reproducibility. How fast two identically seeded GPU runs diverge, why, and what bit-exact determinism costs: 16%."
+series: "training-knobs"
 slug: "pytorch-same-seed-different-model"
 date: 2026-08-18
 author: "B1ack"

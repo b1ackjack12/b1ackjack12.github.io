@@ -1,6 +1,9 @@
 ---
 title: "My GPU Stopped Throwing OOM Errors. What It Does Instead Is Worse"
 description: "I pushed ResNet50 batches past 16 GB expecting a crash and got a silent 45x slowdown instead — Windows' sysmem fallback in action. Plus real numbers for the two levers that actually buy you bigger batches: gradient checkpointing and accumulation."
+seoTitle: "Training Past GPU Memory: Windows Sysmem Fallback Measured"
+seoDescription: "ResNet50 batches pushed past 16 GB got a silent 45x slowdown instead of OOM. Real numbers for gradient checkpointing and accumulation."
+series: "pytorch-performance"
 slug: "training-past-gpu-memory-limits"
 date: 2026-08-07
 author: "B1ack"

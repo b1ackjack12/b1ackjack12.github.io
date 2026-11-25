@@ -1,6 +1,9 @@
 ---
 title: "One Horizontal Flip at Test Time Beat Every Training Trick I've Measured"
 description: "Test-time augmentation gets dismissed as a Kaggle hack, so I priced it properly: ten paired seeds, four view sets, clean GPU timings. Averaging a prediction with its mirror image gained +0.56 points — seven times what EMA earned, with zero training changes — and the sweep shows the views are wildly unequal: one flip is worth more than four translations combined."
+seoTitle: "Test-Time Augmentation Measured: One Flip Beat Every Trick"
+seoDescription: "Ten paired seeds, four view sets, clean GPU timings. Averaging with the mirror image gained +0.56 points, seven times what EMA earned."
+series: "training-knobs"
 slug: "test-time-augmentation-measured"
 date: 2026-09-16
 author: "B1ack"

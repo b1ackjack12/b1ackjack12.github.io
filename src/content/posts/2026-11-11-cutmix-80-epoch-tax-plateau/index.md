@@ -1,6 +1,9 @@
 ---
 title: "The Tax Stopped Falling. 80 Epochs Bought CutMix the Accuracy Win and None of the Confidence"
 description: "Two posts in a row predicted that CutMix's uniform confidence shortfall would keep shrinking toward zero as training budget grew, because it was a residue of under-fitting. I doubled the budget again, 40 to 80 epochs, ten more models on the same paired seeds and the same fixed patched test set. The accuracy prediction from the budget sweep came in: CutMix beats the baseline by 0.75 points at t = 7, five seeds of five, up from +0.34 at 40. The confidence prediction failed. The clean-image gap went 16.8 → 10.4 → 9.6, and the patched deficit moved by one point, while the model's fit to its own labels kept improving at t = 25. The tax is not a residue of fit. It is a ceiling, and the next question is whether the dose sets it."
+seoTitle: "CutMix at 80 Epochs: Accuracy Win, Confidence Tax Plateau"
+seoDescription: "Doubling the budget to 80 epochs: CutMix beats the baseline by 0.75 (t = 7), but the clean-image confidence gap stalls at 9.6 points. A ceiling."
+series: "cutmix-tax"
 slug: "cutmix-80-epoch-tax-plateau"
 date: 2026-11-11
 author: "B1ack"

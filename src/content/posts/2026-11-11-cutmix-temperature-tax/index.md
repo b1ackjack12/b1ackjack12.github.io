@@ -1,6 +1,9 @@
 ---
 title: "I Said One Temperature Would Fix CutMix's Flat Tax. It Fixes the Clean Images and Un-fixes the Patched Ones"
 description: "Yesterday's post ended with a line I hadn't measured: CutMix's confidence shortfall is a flat tax, and a flat tax is exactly what one fitted temperature corrects. Today I fitted temperatures on all twenty checkpoints and the line is half wrong in an instructive way. On clean images the repair is as advertised — the 40-epoch CutMix model goes from ECE 6.9 to 1.1 and lands at the same confidence as the temperature-scaled baseline while scoring 0.4 points higher. But that same temperature, applied to the patched images the model was trained on, makes its obedience to the patch worse by 2.8 points at t = 32, and no temperature at all makes it better: the obedience-optimal T is 1.07. A flat tax in probability space is the one thing a temperature cannot be. The deficit lives in the shape of the response, not its scale."
+seoTitle: "Temperature Scaling vs CutMix's Confidence Tax"
+seoDescription: "One fitted temperature takes the 40-epoch CutMix model from ECE 6.9 to 1.1 on clean images and makes its obedience on patched images worse by 2.8."
+series: "cutmix-tax"
 slug: "cutmix-temperature-tax"
 date: 2026-11-11
 author: "B1ack"

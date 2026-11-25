@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { SERIES, byDate } from '../../data/series';
+const posts = (await getCollection('posts')).filter((p) => !p.data.draft);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rows = SERIES.map((s) => {
+  const ps = posts.filter((p) => p.data.series === s.slug).sort(byDate);
+  return { s, count: ps.length, latest: ps[ps.length - 1] };
+}).filter((r) => r.count > 0);
+const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<Layout title="Series" seoTitle="Series: Measured Deep Learning Experiments" description="Every post on this blog grouped into its experiment series: CutMix calibration, IMU activity recognition, PyTorch performance, training hyperparameters and deployment.">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">Series</h1>
+    <p class="text-gray-600 dark:text-gray-400 mb-10">Most posts here continue an earlier one. Each series below is in reading order, with the harness and the numbers carried from post to post.</p>
+    <div class="space-y-8">
+      {rows.map(({ s, count, latest }) => (
+        <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <a href={`${base}/series/${s.slug}/`} class="text-2xl font-semibold text-blue-700 dark:text-blue-300 hover:underline">{s.title}</a>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{count} posts{latest ? ` · latest ${fmt(latest.data.date)}` : ''}</div>
+          <p class="text-gray-700 dark:text-gray-300 mt-3">{s.tagline}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

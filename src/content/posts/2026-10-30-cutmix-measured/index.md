@@ -1,6 +1,9 @@
 ---
 title: "I Predicted CutMix's Confidence Before Training It. The Accuracy Was the Surprise"
 description: "Tuesday's mixup post ended with a claim that was really a prediction: a soft-target technique's mean confidence is computable from its targets before any gradient flows. CutMix is the natural test — same label math, completely different pixels. The prediction landed within three points on the always-on arm and within one point on the standard p=0.5 arm. The part I didn't predict: at a 10-epoch budget CutMix loses to mixup, by a lot — the folklore ranking between the two cousins inverts when the schedule is short."
+seoTitle: "CutMix vs Mixup at 10 Epochs: Confidence Predicted Early"
+seoDescription: "CutMix's mean confidence predicted from its soft labels before training, within one point at p=0.5. At a 10-epoch budget CutMix loses to mixup by a lot."
+series: "cutmix-tax"
 slug: "cutmix-measured"
 date: 2026-10-30
 author: "B1ack"

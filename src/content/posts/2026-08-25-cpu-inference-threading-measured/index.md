@@ -1,6 +1,9 @@
 ---
 title: "CPU Inference Threading: The Default Grabs Every Core and Still Loses"
 description: "onnxruntime spreads each inference across all your cores by default. I measured latency against thread count for a 103 KB model and a 43 MB one, then tried eight single-threaded sessions against one default session — and got 1.7x the throughput from the same silicon."
+seoTitle: "ONNX Runtime CPU Inference Threading, Measured"
+seoDescription: "Latency vs thread count for a 103 KB and a 43 MB model, then eight single-threaded sessions against one default session: 1.7x the throughput."
+series: "deployment"
 slug: "cpu-inference-threading-measured"
 date: 2026-08-25
 author: "B1ack"

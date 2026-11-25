@@ -1,6 +1,9 @@
 ---
 title: "The Tax Is the Dose. CutMix's Confidence Shortfall Scales With How Often You Apply It, and Half a Dose Keeps the Accuracy"
 description: "The 80-epoch post ended with a prediction: the ten-point confidence tax that always-on CutMix carries at every budget is set by the dose, not the schedule, so at probability 0.5 the clean-image gap should collapse. I trained CutMix at p = 0.25 and 0.5 for 40 epochs on the same paired seeds and probed them on the same fixed patched test set. The gap against the baseline runs 0 / 1.8 / 5.0 / 10.4 across doses 0 / 0.25 / 0.5 / 1 — proportional, not collapsing, with the model passing about forty percent of its labels' deflation through to clean images. The accuracy win does not scale with dose: both half-dose arms beat the baseline by about half a point, slightly more than the full dose does, and p = 0.25 is the best natively calibrated model in the CutMix arc, ECE 1.8 with no temperature. What the full dose buys instead is obedience on occluded inputs, and that is the trade the dial actually sets."
+seoTitle: "CutMix Dose-Response: Confidence Tax Scales With p"
+seoDescription: "CutMix at p = 0.25, 0.5 and 1 for 40 epochs: the clean-image gap runs 1.8 / 5.0 / 10.4 points, half a dose keeps the accuracy, and p=0.25 has ECE 1.8."
+series: "cutmix-tax"
 slug: "cutmix-dose-tax"
 date: 2026-11-16
 author: "B1ack"

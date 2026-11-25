@@ -1,6 +1,9 @@
 ---
 title: "One Scalar Fixed My Model's Overconfidence. It Needed 500 Labels to Find"
 description: "The calibration series ends with the repair tool: temperature scaling, fitted and measured on both of my broken models — the vain one claiming 92 while scoring 89, and the label-smoothed one lowballing itself by six points. One fitted number cut the first model's calibration error to a third with accuracy provably untouched, fixed only two-thirds of the smoothing damage, and — answering the objection my own early-stopping post raised — needed just 500 validation samples to find."
+seoTitle: "Temperature Scaling Measured: One Scalar, 500 Labels"
+seoDescription: "Temperature scaling fitted on an overconfident model and a label-smoothed one: ECE cut to a third, accuracy untouched, 500 validation samples suffice."
+series: "training-knobs"
 slug: "temperature-scaling-measured"
 date: 2026-10-06
 author: "B1ack"

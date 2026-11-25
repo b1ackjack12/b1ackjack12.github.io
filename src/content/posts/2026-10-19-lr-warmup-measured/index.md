@@ -1,6 +1,9 @@
 ---
 title: "Warmup Did Nothing for My Learning Rate — Then It Fully Rescued the Wrong One"
 description: "Learning-rate warmup is the most cargo-culted schedule fragment in deep learning: transformers need it, so everyone ships it. I measured what it actually does at a 10-epoch CNN budget with a 2x2 experiment — tuned and overheated learning rates, with and without one epoch of linear warmup. At the tuned rate, warmup is statistically nothing. At triple the rate, it claws back all 2.9 lost points and lands exactly on the tuned baseline, to within eight hundredths. Warmup isn't an accelerant. It's insurance, and the premium is zero."
+seoTitle: "Learning Rate Warmup Measured: Insurance, Not a Speedup"
+seoDescription: "A 2x2 experiment at a 10-epoch CNN budget: warmup does nothing at the tuned LR and recovers all 2.9 lost points at triple the rate."
+series: "training-knobs"
 slug: "lr-warmup-measured"
 date: 2026-10-19
 author: "B1ack"

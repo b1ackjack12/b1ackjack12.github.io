@@ -6,6 +6,12 @@ const posts = defineCollection({
   schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string().optional().default(''),
+    // Search-facing variants: <title>, meta description and JSON-LD use these when present.
+    // Keep seoTitle under ~60 characters and seoDescription under ~155.
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    // Series slug from src/data/series.ts; drives the hub page and prev/next links.
+    series: z.string().optional(),
     slug: z.string().optional(),
     date: z.coerce.date(),
     author: z.string().optional().default('Editorial'),

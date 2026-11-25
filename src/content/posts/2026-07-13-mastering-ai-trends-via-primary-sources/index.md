@@ -1,6 +1,8 @@
 ---
 title: "How I Follow AI Without Drowning: A Primary-Source Reading Habit"
 description: "The reading workflow I use to keep up with AI as a working engineer — official docs, technical reports, and changelogs instead of secondhand commentary."
+seoTitle: "Keeping Up With AI Through Primary Sources"
+seoDescription: "A reading workflow for following AI as a working engineer: official docs, technical reports and changelogs instead of commentary."
 slug: "mastering-ai-trends-via-primary-sources"
 date: 2026-07-13
 author: "B1ack"

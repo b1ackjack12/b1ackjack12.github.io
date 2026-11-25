@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import { SERIES, byDate } from '../../data/series';
+export async function getStaticPaths() {
+  const posts = (await getCollection('posts')).filter((p) => !p.data.draft);
+  return SERIES.map((s) => ({
+    params: { series: s.slug },
+    props: { meta: s, posts: posts.filter((p) => p.data.series === s.slug).sort(byDate) },
+  }));
+}
+const { meta, posts } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href = (p) => `${base}/posts/${p.data.slug ?? p.id}/`;
+const fmt = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const first = posts[0];
+const last = posts[posts.length - 1];
+const seoDescription = `${meta.tagline} ${posts.length} posts, ${first ? fmt(first.data.date) : ''} to ${last ? fmt(last.data.date) : ''}.`;
+---
+<Layout title={`${meta.title} (series)`} seoTitle={meta.title} description={seoDescription} image={last?.data.thumbnail?.src}>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <p class="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+      <a href={`${base}/series/`} class="hover:underline">Series</a> &middot; {posts.length} posts
+    </p>
+    <h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">{meta.title}</h1>
+    <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">{meta.tagline}</p>
+    <p class="text-gray-600 dark:text-gray-400 mb-10">{meta.intro}</p>
+    <ol class="space-y-6">
+      {posts.map((p, i) => (
+        <li class="flex gap-4">
+          <div class="flex-none w-8 text-right text-2xl font-bold text-gray-300 dark:text-gray-600 leading-none pt-1">{i + 1}</div>
+          <div class="flex-grow">
+            <a href={href(p)} class="text-xl font-semibold text-blue-700 dark:text-blue-300 hover:underline">{p.data.seoTitle ?? p.data.title}</a>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{fmt(p.data.date)}</div>
+            {p.data.seoTitle && <div class="text-sm italic text-gray-500 dark:text-gray-400 mt-1">{p.data.title}</div>}
+            <p class="text-gray-700 dark:text-gray-300 mt-2">{p.data.seoDescription ?? p.data.description}</p>
+          </div>
+          {p.data.thumbnail && (
+            <a href={href(p)} class="flex-none hidden sm:block">
+              <Image src={p.data.thumbnail} alt="" class="w-28 h-20 object-cover rounded" width={224} height={160} />
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</Layout>

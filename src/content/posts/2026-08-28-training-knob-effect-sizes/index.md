@@ -1,6 +1,9 @@
 ---
 title: "I Ranked Six Training Knobs by How Hard They Actually Hit"
 description: "Yesterday I established that my training pipeline's seed noise is 1.17 percentage points — big enough to drown the tricks people A/B test. So today I measured what ISN'T drowned: six common hyperparameter changes, three seeds each, expressed in units of that noise. The ranking embarrassed me, because the biggest free win was a knob I thought I'd already set correctly."
+seoTitle: "Six Training Hyperparameters Ranked by Effect Size"
+seoDescription: "Six common hyperparameter changes measured in units of seed noise, three seeds each. The biggest free win was a knob I thought was already set."
+series: "training-knobs"
 slug: "training-knob-effect-sizes"
 date: 2026-08-28
 author: "B1ack"

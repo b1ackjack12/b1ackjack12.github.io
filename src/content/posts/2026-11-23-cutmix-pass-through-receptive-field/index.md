@@ -1,6 +1,9 @@
 ---
 title: "Neither the Receptive Field nor the Pooling. CutMix's Pass-Through Stays at a Third on Three IMU Architectures, and the Wide Ones Buy More Skill for the Same Tax"
 description: "Last week's IMU post found CutMix leaking a third as much confidence tax onto clean windows as it does on CIFAR, and blamed the small 1-D CNN's half-second receptive field and time-average pooling, which hand it proportional obedience for free. That was a hypothesis with a three-second test, so here is the test: the same four doses and fifty paired subject splits on three architectures — the shipped model, a dilated version whose receptive field covers the whole window, and a version whose classifier sees the whole window with no averaging at all. The pass-through rate at full dose is 13.5, 11.2 and 12.2 percent. Nothing climbs toward forty. The architecture does own the baseline's untrained obedience, exactly as the hypothesis said, and that turns out to be a different thing from the leak. Meanwhile the two wide models learn twice as much occlusion skill from the same dose, pay the same or less tax for it, and land their full-dose confidence within two tenths of a point of honest."
+seoTitle: "CutMix Pass-Through on Three IMU Architectures"
+seoDescription: "Shipped CNN, dilated wide-field and flatten variants at four doses: full-dose pass-through 13.5 / 11.2 / 12.2%. Architecture sets obedience, not the leak."
+series: "cutmix-tax"
 slug: "cutmix-pass-through-receptive-field"
 date: 2026-11-23
 author: "B1ack"

@@ -4,8 +4,9 @@ const base = import.meta.env.BASE_URL;
 const baseTrim = base.replace(/\/$/, '');
 const links = [
   { href: base, label: 'Home' },
-  { href: `${baseTrim}/about`, label: 'About' },
-  { href: `${baseTrim}/contact`, label: 'Contact' },
+  { href: `${baseTrim}/series/`, label: 'Series' },
+  { href: `${baseTrim}/about/`, label: 'About' },
+  { href: `${baseTrim}/contact/`, label: 'Contact' },
 ];
 ---
 <header class="bg-white dark:bg-gray-900 w-full py-3 border-b border-gray-100 dark:border-gray-800 transition-colors duration-200">

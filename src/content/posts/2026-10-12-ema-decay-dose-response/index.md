@@ -1,6 +1,9 @@
 ---
 title: "EMA's Decay Isn't a Dial. It's a Plateau, a Cliff, and a 10%-Accuracy Crater"
 description: "A month ago EMA's tutorial default lost me three points and the tuned value earned a cosmetic +0.08, so I did what this blog now does to every knob: swept the whole curve. Six decay values tracked as parallel shadows inside the same ten training runs — perfectly paired, zero extra GPU time per arm. The result isn't a curve with an optimum. It's a flat shelf where every reasonable value pays the same +0.1, a cliff edge between 0.995 and 0.999, and at the far end a shadow model that evaluates at coin-flip accuracy."
+seoTitle: "EMA Decay Dose-Response: A Plateau, a Cliff and a Crater"
+seoDescription: "Six EMA decay values tracked as parallel shadows in the same ten runs: a flat shelf worth +0.1, a cliff between 0.995 and 0.999, then coin-flip accuracy."
+series: "training-knobs"
 slug: "ema-decay-dose-response"
 date: 2026-10-12
 author: "B1ack"

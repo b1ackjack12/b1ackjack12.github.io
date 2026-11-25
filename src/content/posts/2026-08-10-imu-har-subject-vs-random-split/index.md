@@ -1,6 +1,9 @@
 ---
 title: "Your Activity Recognition Model Isn't 94% Accurate. For Someone, It's 74%"
 description: "I finally put numbers behind the train/test split advice I gave in my IMU preprocessing post — random vs. subject splits on real sensor data, 10 trained models, and a per-user accuracy spread that matters more than the leakage I went looking for."
+seoTitle: "Random vs Subject Split for IMU Activity Recognition"
+seoDescription: "Random vs subject splits on real sensor data, 10 trained models: a per-user accuracy spread from 94% down to 74% that matters more than leakage."
+series: "imu-har"
 slug: "imu-har-subject-vs-random-split"
 date: 2026-08-10
 author: "B1ack"

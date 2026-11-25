@@ -1,6 +1,9 @@
 ---
 title: "The GPU Has a 0.8 ms Floor, and My Sensor Model Lives Under It"
 description: "Head-to-head serving latency for four model sizes on CPU (ONNX Runtime) versus GPU (PyTorch fp16, copies included): at batch 1 the tiny IMU model runs 11.7x faster on CPU, because a GPU inference can't cost less than its launch-and-copy overhead no matter how small the network is. One batch dimension later, the GPU wins everything by up to 62x. The crossover is sharp, cheap to measure, and worth real money."
+seoTitle: "CPU vs GPU Serving Latency: Where the Crossover Is"
+seoDescription: "Four model sizes on ONNX Runtime CPU vs PyTorch fp16 GPU. At batch 1 the tiny IMU model is 11.7x faster on CPU; one batch later, GPU wins 62x."
+series: "deployment"
 slug: "cpu-vs-gpu-serving-crossover"
 date: 2026-09-23
 author: "B1ack"

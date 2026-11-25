@@ -1,6 +1,9 @@
 ---
 title: "All of Label Smoothing's Accuracy Arrives at 0.02. Everything After That Is Damage"
 description: "Yesterday ended with smoothing 0.1 improving my model while wrecking its probabilities, and an obvious question: is there a dose that keeps the gain without the wreckage? The five-point sweep answers cleanly — the accuracy benefit saturates at the smallest dose I tried, calibration is a strictly monotonic casualty after its sweet spot, and the folklore that smoothing improves calibration turns out to be true at exactly one point on the curve. It just isn't the point everyone copies."
+seoTitle: "Label Smoothing Dose-Response: Accuracy Saturates at 0.02"
+seoDescription: "A five-point sweep: the accuracy gain arrives at the smallest dose, calibration gets monotonically worse after it, and 0.1 is the wrong default."
+series: "training-knobs"
 slug: "label-smoothing-dose-response"
 date: 2026-09-30
 author: "B1ack"

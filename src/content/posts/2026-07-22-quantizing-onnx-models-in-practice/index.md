@@ -1,6 +1,9 @@
 ---
 title: "Quantizing an ONNX Model in Practice: The Numbers Nobody Shows You"
 description: "I quantized a real trained model with onnxruntime and measured everything — file size, latency, accuracy. Dynamic quantization made my CNN 3x slower, and that's not even the strangest result."
+seoTitle: "ONNX Quantization Measured: Size, Latency, Accuracy"
+seoDescription: "A real model quantized with onnxruntime and measured on file size, latency and accuracy. Dynamic quantization made the CNN 3x slower."
+series: "deployment"
 slug: "quantizing-onnx-models-in-practice"
 date: 2026-07-22
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "How Many Seconds of Sensor Data Does Activity Recognition Actually Need?"
 description: "The standard HAR window — 2.56 seconds, 128 samples — is a benchmark convention nobody questions, and every real-time system inherits its latency. Center-cropping the windows across 50 paired subject splits: a quarter of the context costs 0.87 points overall, the dose-response curve steepens with each halving, and as usual the bill lands hardest on the worst-served subjects."
+seoTitle: "How Long a Window Does IMU Activity Recognition Need?"
+seoDescription: "Center-cropping 2.56-second HAR windows across 50 paired subject splits: a quarter of the context costs 0.87 points, hardest on the worst subjects."
+series: "imu-har"
 slug: "har-window-length-measured"
 date: 2026-09-28
 author: "B1ack"

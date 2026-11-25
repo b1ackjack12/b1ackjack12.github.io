@@ -1,6 +1,9 @@
 ---
 title: "Batch 1 Uses 8% of Your GPU, and Other Things the Batching Curve Says"
 description: "I swept batch size from 1 to 256 across three model sizes in fp32 and fp16 on an RTX 4080 SUPER. The first eight images are literally free, fp16 is slower than fp32 until batch 16, and the biggest batch is never the fastest one. The whole serving policy falls out of three tables."
+seoTitle: "GPU Inference Batching Curve: Batch 1 to 256, fp32 and fp16"
+seoDescription: "Batch size swept 1 to 256 over three model sizes on an RTX 4080 SUPER. The first eight images are free and fp16 is slower until batch 16."
+series: "deployment"
 slug: "gpu-inference-batching-measured"
 date: 2026-09-02
 author: "B1ack"

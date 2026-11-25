@@ -1,6 +1,9 @@
 ---
 title: "I Gave CutMix Four Times the Budget. The Debt Cleared, and the Obedience Wore Off"
 description: "Three augmentation posts in a row ended on the same caveat: at a 10-epoch budget. CutMix lost 3.08 points there, and I kept calling that a loan against training time without ever checking the repayment schedule. So I stretched the cosine schedule to 20 and 40 epochs on the same five seeds, baseline and always-on CutMix side by side. The gap went −3.08 → −1.09 → +0.12: parity at four times the budget, not yet a win. And the calibration panel broke a theory I had been leaning on — the obedient-confidence arithmetic that nailed four arms at 10 epochs lost its grip as training lengthened, with CutMix drifting thirteen points above the confidence its labels asked for."
+seoTitle: "CutMix vs Training Budget: 10, 20 and 40 Epochs on CIFAR-10"
+seoDescription: "CutMix's gap went −3.08 → −1.09 → +0.12 from 10 to 40 epochs on the same five seeds, and its confidence drifted 13 points above the labels' request."
+series: "cutmix-tax"
 slug: "cutmix-budget-crossover"
 date: 2026-11-09
 author: "B1ack"

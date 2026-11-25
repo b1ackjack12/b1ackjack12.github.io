@@ -1,6 +1,9 @@
 ---
 title: "Quantization for Edge Devices: Lessons from Deploying on Real Hardware"
 description: "PTQ vs. QAT, memory layouts, and the hardware constraints nobody mentions until deployment day — notes from working with models on embedded targets."
+seoTitle: "Quantization for Edge Devices: Lessons From Real Hardware"
+seoDescription: "PTQ vs QAT, memory layouts and the hardware constraints that only show up on deployment day, from models on embedded targets."
+series: "deployment"
 slug: "optimizing-deep-learning-models-for-edge-via-quantization"
 date: 2026-07-15
 author: "B1ack"

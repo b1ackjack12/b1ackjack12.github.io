@@ -1,6 +1,9 @@
 ---
 title: "num_workers=4 Made My Training 47% Slower"
 description: "Every PyTorch tutorial says to crank up DataLoader workers. On Windows, that advice backfired: 4 workers made each epoch 47% slower than no workers at all, and 8 workers made it 2.4x slower. The fix is one flag that the tutorials, written on Linux, never needed to mention."
+seoTitle: "DataLoader num_workers=4 Made Training 47% Slower on Windows"
+seoDescription: "On Windows, 4 DataLoader workers made each epoch 47% slower and 8 workers 2.4x slower. The fix is one flag Linux tutorials never mention."
+series: "pytorch-performance"
 slug: "dataloader-num-workers-windows"
 date: 2026-08-26
 author: "B1ack"

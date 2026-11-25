@@ -1,6 +1,9 @@
 ---
 title: "I Trained 60 Models to Find Out Where Activity Recognition Actually Fails"
 description: "Full leave-one-subject-out on UCI HAR, as promised: the 94% model is a 99.5% model with one blind spot, 86% of all errors are a single activity pair, and a calibration trick recovers half the gap for the worst users."
+seoTitle: "Leave-One-Subject-Out on UCI HAR: Where Errors Come From"
+seoDescription: "Full LOSO on UCI HAR: the 94% model is 99.5% with one blind spot, 86% of errors are one activity pair, and calibration recovers half the gap."
+series: "imu-har"
 slug: "har-loso-error-analysis"
 date: 2026-08-11
 author: "B1ack"

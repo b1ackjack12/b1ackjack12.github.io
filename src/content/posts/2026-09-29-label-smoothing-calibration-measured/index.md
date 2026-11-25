@@ -1,6 +1,9 @@
 ---
 title: "Label Smoothing Made My Model Better and Its Probabilities Worse"
 description: "Yesterday I promised not to over-interpret why label smoothing paid 3x more under Adam, and proposed a tidy hypothesis to test: Adam's overconfident logits give smoothing more to fix. The dedicated experiment killed the hypothesis in one table — and handed back something better: label smoothing tripled my calibration error, trading mild overconfidence for severe underconfidence while improving accuracy. If anything downstream consumes your model's probabilities, that's not a detail."
+seoTitle: "Label Smoothing and Calibration: Better Accuracy, Worse ECE"
+seoDescription: "Label smoothing 0.1 tripled calibration error, trading mild overconfidence for severe underconfidence while improving accuracy. ECE and NLL measured."
+series: "training-knobs"
 slug: "label-smoothing-calibration-measured"
 date: 2026-09-29
 author: "B1ack"

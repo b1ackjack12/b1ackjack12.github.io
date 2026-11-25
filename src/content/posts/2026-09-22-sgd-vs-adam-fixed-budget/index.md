@@ -1,6 +1,9 @@
 ---
 title: "The One Knob I Never Swept Was the Optimizer. Adam Beat My Tuned SGD by 0.7"
 description: "A month of paired t-tests over learning rates, schedules, EMA and augmentation — all of it on top of SGD, chosen by reflex and folklore ('SGD generalizes better for convnets'). A proper face-off with per-optimizer tuning at my fixed 10-epoch budget: Adam wins by +0.71, runs quieter across seeds, and — against the second piece of folklore — plain Adam with coupled L2 beats a tuned AdamW."
+seoTitle: "SGD vs Adam at a Fixed 10-Epoch Budget: Adam Wins by 0.7"
+seoDescription: "A proper face-off with per-optimizer tuning: Adam beats tuned SGD by +0.71, runs quieter across seeds, and plain Adam beats a tuned AdamW."
+series: "training-knobs"
 slug: "sgd-vs-adam-fixed-budget"
 date: 2026-09-22
 author: "B1ack"

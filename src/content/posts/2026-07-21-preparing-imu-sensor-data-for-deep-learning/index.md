@@ -1,6 +1,9 @@
 ---
 title: "Preparing IMU Sensor Data for Deep Learning: A Signal Processing Engineer's Guide"
 description: "Field notes on turning raw accelerometer and gyroscope streams into something a neural network can actually learn from — timestamps, gravity, windowing, and the data leaks that quietly inflate your accuracy."
+seoTitle: "Preparing IMU Sensor Data for Deep Learning"
+seoDescription: "Turning raw accelerometer and gyroscope streams into training data: timestamps, gravity, windowing, and the leaks that inflate accuracy."
+series: "imu-har"
 slug: "preparing-imu-sensor-data-for-deep-learning"
 date: 2026-07-21
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "The Pass-Through Rate Is Not a Constant. On the IMU Classifier CutMix's Confidence Tax Is a Third of the Image Model's, and the Occlusion Skill Saturates at a Quarter Dose"
 description: "Yesterday's dose sweep found CutMix passing about forty percent of its labels' confidence deflation through to clean images, at every dose, and asked whether that rate belongs to CutMix or to the task. Same four doses on the IMU activity classifier, fifty paired subject splits, a 1-D CutMix that splices a time segment from another window: the tax is still proportional to dose, but the pass-through is 20 / 15 / 13 percent — a third of the image model's — and the baseline it taxes was over-confident by 2.6 points to begin with, so partial doses land on the honest line and the full dose overshoots it. The occlusion skill that justified the full dose on images saturates here at a quarter dose. The rate is a property of the model-and-data, and I have a receptive-field hypothesis for why, with a cheap test attached."
+seoTitle: "1-D CutMix on IMU Data: A Third of the Image Model's Tax"
+seoDescription: "Four CutMix doses on an IMU activity classifier, fifty paired subject splits: pass-through 13% vs 39% on CIFAR, and occlusion skill saturates at p=0.25."
+series: "cutmix-tax"
 slug: "cutmix-dose-imu-pass-through"
 date: 2026-11-17
 author: "B1ack"

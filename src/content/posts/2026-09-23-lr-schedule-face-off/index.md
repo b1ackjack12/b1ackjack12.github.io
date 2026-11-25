@@ -1,6 +1,9 @@
 ---
 title: "The LR Schedule Was Worth 5.7 Points. The Fancy Curve Was Worth 0.3"
 description: "Yesterday I confessed to never sweeping the optimizer; today, its accomplice. Cosine annealing has been in every experiment this blog has run, chosen by the same reflex. The face-off — constant, step, linear, cosine at the fixed 10-epoch budget — says the reflex was right but for an inflated reason: having any decay is the biggest effect I've ever measured, the specific curve is nearly cosmetic, and the schedule turns out to be what was manufacturing my low noise floor all along."
+seoTitle: "LR Schedule Face-Off: Constant, Step, Linear, Cosine"
+seoDescription: "Having any decay is the largest effect measured on this blog, 5.7 points; the specific curve is worth 0.3. The schedule also set the noise floor."
+series: "training-knobs"
 slug: "lr-schedule-face-off"
 date: 2026-09-23
 author: "B1ack"

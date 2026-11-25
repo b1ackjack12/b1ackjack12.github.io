@@ -1,6 +1,9 @@
 ---
 title: "My Gradient Clipping Was Never Clipping. It Was Secretly Multiplying My Weight Decay"
 description: "Yesterday warmup turned out to be free insurance against a hot learning rate, so today I asked whether gradient clipping — the other famous stability knob — buys the same policy. It does not. Clipping taxed the tuned recipe, deepened the hot-rate damage, and at an aggressive threshold detonated 14 points. Then the instrumentation explained everything: on this CNN the clip threshold engages on 100% of steps because there are no spikes to clip, and what it's actually doing is rescaling gradients while Adam's coupled weight decay keeps full strength — silently multiplying the regularizer dose into the cliff zone I measured last week. One control experiment with the decay removed recovered 14.8 of the lost points."
+seoTitle: "Gradient Clipping Measured: It Multiplied My Weight Decay"
+seoDescription: "Clipping taxed the tuned recipe and detonated 14 points at an aggressive threshold. It engaged on 100% of steps and rescaled Adam's coupled decay."
+series: "training-knobs"
 slug: "gradient-clipping-measured"
 date: 2026-10-20
 author: "B1ack"

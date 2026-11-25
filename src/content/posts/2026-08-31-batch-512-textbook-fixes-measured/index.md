@@ -1,6 +1,9 @@
 ---
 title: "I Tried the Textbook Fixes for Big-Batch Training. All of Them Made It Worse"
 description: "Friday's post ended with a confident claim I hadn't tested: that batch 512's 4.5-point accuracy loss 'becomes fixable with properly scaled LR and warmup.' So I tested it. Linear scaling lost 28 points. Warmup alone lost 6.6. The thing that actually helped was refusing to follow the rule at all — and the reason turns out to be printed in the fine print of the paper the rule comes from."
+seoTitle: "Batch 512 Textbook Fixes Measured: All Made It Worse"
+seoDescription: "Linear LR scaling lost 28 points, warmup alone lost 6.6. What helped was refusing the rule, for a reason printed in the paper's fine print."
+series: "training-knobs"
 slug: "batch-512-textbook-fixes-measured"
 date: 2026-08-31
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "Is Your GPU Actually Busy? Diagnosing CPU-GPU Bottlenecks in PyTorch"
 description: "Why training pipelines stall on data loading more often than on compute, and how to prove it with the PyTorch profiler instead of guessing."
+seoTitle: "Diagnosing CPU-GPU Bottlenecks in PyTorch Training"
+seoDescription: "Training pipelines stall on data loading more often than on compute. How to prove it with the PyTorch profiler instead of guessing."
+series: "pytorch-performance"
 slug: "optimizing-pytorch-deep-learning-pipelines"
 date: 2026-07-14
 author: "B1ack"

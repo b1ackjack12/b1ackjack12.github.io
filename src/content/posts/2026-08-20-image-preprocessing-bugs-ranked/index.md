@@ -1,6 +1,9 @@
 ---
 title: "Quantization Cost My Model 0.13 Points. Preprocessing Bugs Cost Up to 72"
 description: "I injected the classic image preprocessing mistakes — BGR order, missing normalization, wrong stats, JPEG artifacts, resize errors — into a controlled pipeline one at a time and measured exactly what each one costs. The ranking is not what code reviews optimize for."
+seoTitle: "Image Preprocessing Bugs Ranked by Accuracy Cost"
+seoDescription: "BGR order, missing normalization, wrong stats, JPEG artifacts and resize errors injected one at a time. The costliest bug took 72 points."
+series: "deployment"
 slug: "image-preprocessing-bugs-ranked"
 date: 2026-08-20
 author: "B1ack"

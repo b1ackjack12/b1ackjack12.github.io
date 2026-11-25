@@ -1,6 +1,9 @@
 ---
 title: "I Said It Would Take Fifty Splits. Here Are the Fifty Splits"
 description: "Last week's IMU augmentation post ended by calling a two-point hint 'a hypothesis worth fifty splits, not a result.' Fifty splits and 200 training runs later: the hypothesis was real but pointed at the wrong augmentation. The one my five-split experiment dismissed as null turns out to be the best thing you can do for your hardest users."
+seoTitle: "IMU Augmentation Over Fifty Subject Splits, 200 Runs"
+seoDescription: "Five splits ranked the augmentations in the wrong order. Fifty paired splits and 200 training runs find the one that helps the hardest users."
+series: "imu-har"
 slug: "har-augmentation-fifty-splits"
 date: 2026-09-09
 author: "B1ack"

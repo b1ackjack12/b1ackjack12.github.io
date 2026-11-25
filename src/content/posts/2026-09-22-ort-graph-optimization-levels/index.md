@@ -1,6 +1,9 @@
 ---
 title: "ONNX Runtime's Optimization Levels Do Completely Different Things to Different Models"
 description: "Everyone leaves ONNX Runtime's graph optimization at the default and moves on — reasonable, but it hides where the speed actually comes from. Measured across my three models: the int8 network is a 3.4x win that collapses to a pessimization if optimization is off, ResNet18 gets 35% from layout transformation and almost nothing from operator fusion, and at the 0.05 ms scale I briefly 'discovered' a regression that evaporated on re-measurement."
+seoTitle: "ONNX Runtime Graph Optimization Levels, Measured"
+seoDescription: "Across three models: int8 is a 3.4x win that collapses if optimization is off, ResNet18 gets 35% from layout and almost nothing from fusion."
+series: "deployment"
 slug: "ort-graph-optimization-levels"
 date: 2026-09-22
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "I Threw Away Half My Training Data and Lost Nothing. Then I Threw Away Half My People and Lost Three Points"
 description: "Every sensor-data project eventually faces the same budgeting question: recruit more subjects, or record longer sessions with the ones you have? The fifty-split harness can answer that directly — a subject-count dose-response from 21 people down to 5, plus the control arm that settles the real question: the same number of windows drawn from all 21 people versus 10 people's complete recordings. Same volume, different diversity, +1.18 points and 40 wins in 50. Hours are cheap. Humans are the dataset."
+seoTitle: "More Subjects or Longer Recordings? IMU Data Budget Measured"
+seoDescription: "Subject-count dose-response from 21 people to 5, plus a volume-matched control: same windows from all 21 vs 10 people's full recordings, +1.18 points."
+series: "imu-har"
 slug: "har-subjects-vs-hours"
 date: 2026-10-27
 author: "B1ack"

@@ -1,6 +1,9 @@
 ---
 title: "Mixup's Confidence Isn't Miscalibrated. It's Obedient"
 description: "Mixup arrives with two pieces of folklore: it needs long schedules to pay off, and it improves calibration. At my 10-epoch budget, with the full instrument panel attached — accuracy, mean confidence, 15-bin ECE, NLL — the first one held and the second one inverted. α=0.2 is an accuracy null that doubles calibration error; α=1.0 costs 1.76 points and posts the worst ECE this blog has ever measured. And the confidence columns aren't mysterious at all: you can predict them from the Beta distribution before training starts."
+seoTitle: "Mixup Calibration Measured: Obedient, Not Miscalibrated"
+seoDescription: "Mixup at a 10-epoch budget: α=0.2 doubles calibration error, α=1.0 costs 1.76 points, and mean confidence is predictable from the Beta distribution."
+series: "cutmix-tax"
 slug: "mixup-measured"
 date: 2026-10-28
 author: "B1ack"

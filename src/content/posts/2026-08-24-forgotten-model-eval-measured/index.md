@@ -1,6 +1,9 @@
 ---
 title: "Forget model.eval() and Your Accuracy Depends on Your Traffic"
 description: "The most famous two lines in PyTorch inference, measured in their absence: train-mode batch norm scores exactly chance on single requests and looks nearly fine at batch 256 — which is why load tests can't catch it. Plus what no_grad actually buys (hint: not speed)."
+seoTitle: "Forgetting model.eval() in PyTorch: The Measured Cost"
+seoDescription: "Train-mode batch norm scores chance on single requests and looks fine at batch 256, which is why load tests miss it. Plus what no_grad really buys."
+series: "deployment"
 slug: "forgotten-model-eval-measured"
 date: 2026-08-24
 author: "B1ack"

@@ -1,6 +1,8 @@
 ---
 title: "Why Perplexity is a Vanity Metric for Modern LLM Evaluation"
 description: "Perplexity tells you how well a model predicts tokens, not whether it does the job. A layered evaluation approach that actually catches failures."
+seoTitle: "Why Perplexity Is a Vanity Metric for LLM Evaluation"
+seoDescription: "Perplexity measures token prediction, not whether the model does the job. A layered LLM evaluation approach that catches real failures."
 slug: "why-perplexity-is-a-vanity-metric-for-llm-evaluation"
 date: 2026-07-10
 author: "B1ack"

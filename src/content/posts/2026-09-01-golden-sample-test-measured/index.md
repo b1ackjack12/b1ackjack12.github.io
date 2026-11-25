@@ -1,6 +1,9 @@
 ---
 title: "The Twenty-Line Test I Kept Promising, and the Tolerance That Makes It Work"
 description: "Two posts on this blog end by recommending golden-sample tests and then don't show one. Today I built it and measured the only design decision that matters: the tolerance. Legitimate variation moved my logits by at most 0.006; the weakest bug I could inject moved them by 1.15. That 190x gap is where the test lives."
+seoTitle: "Golden-Sample Tests for ML Models: Choosing the Tolerance"
+seoDescription: "Legitimate variation moved logits by at most 0.006; the weakest injected bug moved them 1.15. That 190x gap is where the golden-sample test lives."
+series: "deployment"
 slug: "golden-sample-test-measured"
 date: 2026-09-01
 author: "B1ack"

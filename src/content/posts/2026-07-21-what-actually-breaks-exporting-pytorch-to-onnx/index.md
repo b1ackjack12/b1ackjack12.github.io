@@ -1,6 +1,9 @@
 ---
 title: "What Actually Breaks When You Export PyTorch Models to ONNX"
 description: "Four export failures I reproduced on a real machine — fixed batch sizes, silently baked branches, unsupported operators, and a Windows crash you won't guess — with the exact errors and fixes."
+seoTitle: "What Breaks When Exporting PyTorch Models to ONNX"
+seoDescription: "Four ONNX export failures reproduced on a real machine: fixed batch sizes, baked-in branches, unsupported ops and a Windows crash, with fixes."
+series: "deployment"
 slug: "what-actually-breaks-exporting-pytorch-to-onnx"
 date: 2026-07-21
 author: "B1ack"

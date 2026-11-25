@@ -1,6 +1,9 @@
 ---
 title: "I Stacked Every Win From This Month's Experiments. The Stack Held."
 description: "A month of paired t-tests produced a shelf of small verified wins — Adam, label smoothing, EMA, flip-TTA — each measured alone. The obvious risk: improvements that overlap, fixing the same failure twice and paying twice for one gain. So, the stacking test: three arms, five seeds, TTA on top of everything. Verdict: nearly perfect additivity, one pleasant super-additive surprise, and a baseline that has now climbed 1.9 points without touching the architecture."
+seoTitle: "Stacking Adam, Label Smoothing, EMA and TTA: Do Wins Add?"
+seoDescription: "Three arms, five seeds, TTA on top. Nearly perfect additivity, one super-additive surprise, and a baseline up 1.9 points with no architecture change."
+series: "training-knobs"
 slug: "stacking-the-months-wins"
 date: 2026-09-28
 author: "B1ack"
